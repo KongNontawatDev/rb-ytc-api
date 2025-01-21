@@ -19,7 +19,7 @@ import {
   ValidationPipe,
 } from '@nestjs/common';
 import { LineMessagingService } from '@provider/line-messaging-api/line-messaging.service';
-import { createHotelTemplate } from '@provider/line-messaging-api/templates/hotel-template';
+import { bookingTemplate } from '@provider/line-messaging-api/templates/booking-template';
 
 @Controller({
   path: 'app/booking_list',
@@ -79,20 +79,8 @@ export class BookingListController {
   async create(@Body() body: CreateBookingListDto) {
     const data = await this.bookingListService.create(body);
     if (data) {
-      const messages = [
-        {
-            "type": "text",
-            "text": "Hello, world1"
-        },
-        {
-            "type": "text",
-            "text": "Hello, world2"
-        }
-    ]
-    ;
-      console.log('data', data);
 
-      await this.lineMessageingService.pushMessage(data.user.line_id, createHotelTemplate() as any);
+      await this.lineMessageingService.pushMessage(data.user.line_id, bookingTemplate("จองห้องประชุมแล้ว",data,"#34A853"));
     }
     return {
       message: 'เพิ่มข้อมูลรายการจอง',
@@ -118,7 +106,10 @@ export class BookingListController {
     @Body() body: UpdateStatusBookingListDto,
   ) {
     const data = await this.bookingListService.updateStatusOne(+id, body);
+    if (data) {
 
+      await this.lineMessageingService.pushMessage(data.user.line_id, bookingTemplate("ยกเลิกจองห้องประชุมแล้ว",data,"#EA4335"));
+    }
     return {
       message: 'แก้ไขสถานะรายการจองตามรหัส',
       error: 0,

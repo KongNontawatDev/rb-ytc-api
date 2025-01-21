@@ -19,7 +19,7 @@ const params_booking_list_dto_1 = require("../../core/booking_list/dto/params-bo
 const update_booking_list_dto_1 = require("../../core/booking_list/dto/update-booking_list.dto");
 const common_1 = require("@nestjs/common");
 const line_messaging_service_1 = require("../../../provider/line-messaging-api/line-messaging.service");
-const hotel_template_1 = require("../../../provider/line-messaging-api/templates/hotel-template");
+const booking_template_1 = require("../../../provider/line-messaging-api/templates/booking-template");
 let BookingListController = class BookingListController {
     constructor(bookingListService, lineMessageingService) {
         this.bookingListService = bookingListService;
@@ -60,18 +60,7 @@ let BookingListController = class BookingListController {
     async create(body) {
         const data = await this.bookingListService.create(body);
         if (data) {
-            const messages = [
-                {
-                    "type": "text",
-                    "text": "Hello, world1"
-                },
-                {
-                    "type": "text",
-                    "text": "Hello, world2"
-                }
-            ];
-            console.log('data', data);
-            await this.lineMessageingService.pushMessage(data.user.line_id, (0, hotel_template_1.createHotelTemplate)());
+            await this.lineMessageingService.pushMessage(data.user.line_id, (0, booking_template_1.bookingTemplate)("จองห้องประชุมแล้ว", data, "#34A853"));
         }
         return {
             message: 'เพิ่มข้อมูลรายการจอง',
@@ -89,6 +78,9 @@ let BookingListController = class BookingListController {
     }
     async updateStatusOne(id, body) {
         const data = await this.bookingListService.updateStatusOne(+id, body);
+        if (data) {
+            await this.lineMessageingService.pushMessage(data.user.line_id, (0, booking_template_1.bookingTemplate)("ยกเลิกจองห้องประชุมแล้ว", data, "#EA4335"));
+        }
         return {
             message: 'แก้ไขสถานะรายการจองตามรหัส',
             error: 0,

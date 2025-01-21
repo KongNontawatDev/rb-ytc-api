@@ -37,6 +37,11 @@ let BookingListService = class BookingListService {
                         select: {
                             line_id: true
                         }
+                    },
+                    room: {
+                        select: {
+                            name: true
+                        }
                     }
                 }
             });
@@ -315,7 +320,18 @@ let BookingListService = class BookingListService {
     }
     async updateStatusOne(id, data) {
         try {
-            return await this.db.booking_list.update({ data, where: { id } });
+            return await this.db.booking_list.update({ data, where: { id }, include: {
+                    user: {
+                        select: {
+                            line_id: true
+                        }
+                    },
+                    room: {
+                        select: {
+                            name: true
+                        }
+                    }
+                } });
         }
         catch (error) {
             (0, prisma_error_handler_1.handlePrismaError)(error);

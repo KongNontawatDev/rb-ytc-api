@@ -9,6 +9,9 @@ export declare class BookingListService {
     private date;
     constructor(db: PrismaService, date: DateService);
     create(data: CreateBookingListDto): Promise<({
+        room: {
+            name: string;
+        };
         user: {
             line_id: string;
         };
@@ -206,7 +209,14 @@ export declare class BookingListService {
         updated_at: Date;
     } | undefined>;
     updateStatusMany(ids: number[], status: number): Promise<Prisma.BatchPayload | undefined>;
-    updateStatusOne(id: number, data: UpdateStatusBookingListDto): Promise<{
+    updateStatusOne(id: number, data: UpdateStatusBookingListDto): Promise<({
+        room: {
+            name: string;
+        };
+        user: {
+            line_id: string;
+        };
+    } & {
         id: number;
         department_id: number;
         user_id: number;
@@ -221,7 +231,7 @@ export declare class BookingListService {
         status: number;
         created_at: Date;
         updated_at: Date;
-    } | undefined>;
+    }) | undefined>;
     remove(id: number): Promise<{
         id: number;
         department_id: number;

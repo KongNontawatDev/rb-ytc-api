@@ -9,6 +9,9 @@ export declare class BookingListController {
         message: string;
         error: number;
         data: ({
+            room: {
+                name: string;
+            };
             user: {
                 line_id: string;
             };
@@ -187,7 +190,14 @@ export declare class BookingListController {
     updateStatusOne(id: string, body: UpdateStatusBookingListDto): Promise<{
         message: string;
         error: number;
-        data: {
+        data: ({
+            room: {
+                name: string;
+            };
+            user: {
+                line_id: string;
+            };
+        } & {
             id: number;
             department_id: number;
             user_id: number;
@@ -202,6 +212,6 @@ export declare class BookingListController {
             status: number;
             created_at: Date;
             updated_at: Date;
-        } | undefined;
+        }) | undefined;
     }>;
 }

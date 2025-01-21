@@ -31,6 +31,11 @@ export class BookingListService {
             select:{
               line_id:true
             }
+          },
+          room:{
+            select:{
+              name:true
+            }
           }
         }
       });
@@ -348,7 +353,18 @@ export class BookingListService {
 
   async updateStatusOne(id: number, data: UpdateStatusBookingListDto) {
     try {
-      return await this.db.booking_list.update({ data, where: { id } });
+      return await this.db.booking_list.update({ data, where: { id }, include:{
+          user:{
+            select:{
+              line_id:true
+            }
+          },
+          room:{
+            select:{
+              name:true
+            }
+          }
+        } });
     } catch (error) {
       handlePrismaError(error);
     }
