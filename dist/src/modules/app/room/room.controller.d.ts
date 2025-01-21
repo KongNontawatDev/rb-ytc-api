@@ -11,19 +11,19 @@ export declare class RoomController {
             }[];
             room_image: {
                 id: number;
-                image: string;
                 room_id: number;
+                image: string;
             }[];
         } & {
             id: number;
             name: string;
-            created_at: Date;
-            updated_at: Date;
-            status: number;
-            size: string;
             detail: string | null;
             location: string;
+            size: string;
             capacity: string;
+            status: number;
+            created_at: Date;
+            updated_at: Date;
         })[];
         meta: {
             page: number;
@@ -39,19 +39,19 @@ export declare class RoomController {
         data: ({
             room_image: {
                 id: number;
-                image: string;
                 room_id: number;
+                image: string;
             }[];
         } & {
             id: number;
             name: string;
-            created_at: Date;
-            updated_at: Date;
-            status: number;
-            size: string;
             detail: string | null;
             location: string;
+            size: string;
             capacity: string;
+            status: number;
+            created_at: Date;
+            updated_at: Date;
         })[] | undefined;
     }>;
     findRoomEmpty(): Promise<{
@@ -60,35 +60,35 @@ export declare class RoomController {
         data: ({
             booking_list: {
                 id: number;
+                detail: string | null;
+                status: number;
                 created_at: Date;
                 updated_at: Date;
-                status: number;
-                tel: string;
-                department_id: number;
-                title: string;
-                user_id: number;
                 room_id: number;
+                department_id: number;
+                user_id: number;
                 booking_number: string;
+                tel: string;
                 user_name: string;
-                detail: string | null;
+                title: string;
                 book_start: Date;
                 book_end: Date;
             }[];
             room_image: {
                 id: number;
-                image: string;
                 room_id: number;
+                image: string;
             }[];
         } & {
             id: number;
             name: string;
-            created_at: Date;
-            updated_at: Date;
-            status: number;
-            size: string;
             detail: string | null;
             location: string;
+            size: string;
             capacity: string;
+            status: number;
+            created_at: Date;
+            updated_at: Date;
         })[] | undefined;
     }>;
     findOne(params: FindOneRoomParamDto): Promise<{
@@ -98,9 +98,9 @@ export declare class RoomController {
             booking_list: {
                 id: number;
                 department_id: number;
-                title: string;
                 user_id: number;
                 user_name: string;
+                title: string;
                 book_start: Date;
                 book_end: Date;
             }[];
@@ -117,19 +117,19 @@ export declare class RoomController {
             })[];
             room_image: {
                 id: number;
-                image: string;
                 room_id: number;
+                image: string;
             }[];
         } & {
             id: number;
             name: string;
-            created_at: Date;
-            updated_at: Date;
-            status: number;
-            size: string;
             detail: string | null;
             location: string;
+            size: string;
             capacity: string;
+            status: number;
+            created_at: Date;
+            updated_at: Date;
         }) | null | undefined;
     }>;
     findForDropdown(): Promise<{

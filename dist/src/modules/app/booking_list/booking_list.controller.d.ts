@@ -12,19 +12,19 @@ export declare class BookingListController {
         error: number;
         data: {
             id: number;
-            created_at: Date;
-            updated_at: Date;
-            status: number;
-            tel: string;
             department_id: number;
-            title: string;
             user_id: number;
             room_id: number;
             booking_number: string;
+            tel: string;
             user_name: string;
+            title: string;
             detail: string | null;
             book_start: Date;
             book_end: Date;
+            status: number;
+            created_at: Date;
+            updated_at: Date;
         }[] | undefined;
     }>;
     findAllCurrentMonth(): Promise<{
@@ -32,19 +32,19 @@ export declare class BookingListController {
         error: number;
         data: {
             id: number;
-            created_at: Date;
-            updated_at: Date;
-            status: number;
-            tel: string;
             department_id: number;
-            title: string;
             user_id: number;
             room_id: number;
             booking_number: string;
+            tel: string;
             user_name: string;
+            title: string;
             detail: string | null;
             book_start: Date;
             book_end: Date;
+            status: number;
+            created_at: Date;
+            updated_at: Date;
         }[] | undefined;
     }>;
     findAllByUser(params: findManyBookingListByUserDto): Promise<{
@@ -53,43 +53,43 @@ export declare class BookingListController {
         data: ({
             department: {
                 id: number;
-                name: string;
+                status: number;
                 created_at: Date;
                 updated_at: Date;
-                status: number;
+                name: string;
             };
             room: {
                 room_image: {
                     id: number;
-                    image: string;
                     room_id: number;
+                    image: string;
                 }[];
             } & {
                 id: number;
-                name: string;
+                detail: string | null;
+                status: number;
                 created_at: Date;
                 updated_at: Date;
-                status: number;
-                size: string;
-                detail: string | null;
+                name: string;
                 location: string;
+                size: string;
                 capacity: string;
             };
         } & {
             id: number;
-            created_at: Date;
-            updated_at: Date;
-            status: number;
-            tel: string;
             department_id: number;
-            title: string;
             user_id: number;
             room_id: number;
             booking_number: string;
+            tel: string;
             user_name: string;
+            title: string;
             detail: string | null;
             book_start: Date;
             book_end: Date;
+            status: number;
+            created_at: Date;
+            updated_at: Date;
         })[] | undefined;
     }>;
     findOne(params: FindOneBookingListParamDto): Promise<{
@@ -98,43 +98,43 @@ export declare class BookingListController {
         data: ({
             department: {
                 id: number;
-                name: string;
+                status: number;
                 created_at: Date;
                 updated_at: Date;
-                status: number;
+                name: string;
             };
             room: {
                 room_image: {
                     id: number;
-                    image: string;
                     room_id: number;
+                    image: string;
                 }[];
             } & {
                 id: number;
-                name: string;
+                detail: string | null;
+                status: number;
                 created_at: Date;
                 updated_at: Date;
-                status: number;
-                size: string;
-                detail: string | null;
+                name: string;
                 location: string;
+                size: string;
                 capacity: string;
             };
         } & {
             id: number;
-            created_at: Date;
-            updated_at: Date;
-            status: number;
-            tel: string;
             department_id: number;
-            title: string;
             user_id: number;
             room_id: number;
             booking_number: string;
+            tel: string;
             user_name: string;
+            title: string;
             detail: string | null;
             book_start: Date;
             book_end: Date;
+            status: number;
+            created_at: Date;
+            updated_at: Date;
         }) | null | undefined;
     }>;
     create(body: CreateBookingListDto): Promise<{
@@ -146,19 +146,19 @@ export declare class BookingListController {
             };
         } & {
             id: number;
-            created_at: Date;
-            updated_at: Date;
-            status: number;
-            tel: string;
             department_id: number;
-            title: string;
             user_id: number;
             room_id: number;
             booking_number: string;
+            tel: string;
             user_name: string;
+            title: string;
             detail: string | null;
             book_start: Date;
             book_end: Date;
+            status: number;
+            created_at: Date;
+            updated_at: Date;
         }) | undefined;
     }>;
     update(id: string, body: UpdateBookingListDto): Promise<{
@@ -166,19 +166,19 @@ export declare class BookingListController {
         error: number;
         data: {
             id: number;
-            created_at: Date;
-            updated_at: Date;
-            status: number;
-            tel: string;
             department_id: number;
-            title: string;
             user_id: number;
             room_id: number;
             booking_number: string;
+            tel: string;
             user_name: string;
+            title: string;
             detail: string | null;
             book_start: Date;
             book_end: Date;
+            status: number;
+            created_at: Date;
+            updated_at: Date;
         } | undefined;
     }>;
     updateStatusOne(id: string, body: UpdateStatusBookingListDto): Promise<{
@@ -186,19 +186,19 @@ export declare class BookingListController {
         error: number;
         data: {
             id: number;
-            created_at: Date;
-            updated_at: Date;
-            status: number;
-            tel: string;
             department_id: number;
-            title: string;
             user_id: number;
             room_id: number;
             booking_number: string;
+            tel: string;
             user_name: string;
+            title: string;
             detail: string | null;
             book_start: Date;
             book_end: Date;
+            status: number;
+            created_at: Date;
+            updated_at: Date;
         } | undefined;
     }>;
 }

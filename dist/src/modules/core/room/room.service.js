@@ -158,13 +158,29 @@ let RoomService = class RoomService {
                 const searchFields = searchField
                     .split(',')
                     .map((field) => field.trim());
-                andConditions.push({
-                    OR: searchFields.map((field) => ({
+                const searchConditions = searchFields
+                    .map((field) => {
+                    if (field === 'id' || field === 'status') {
+                        const numValue = Number(textSearch);
+                        if (!isNaN(numValue)) {
+                            return {
+                                [field]: numValue,
+                            };
+                        }
+                        return undefined;
+                    }
+                    return {
                         [field]: {
                             contains: textSearch,
                         },
-                    })),
-                });
+                    };
+                })
+                    .filter((condition) => condition !== undefined);
+                if (searchConditions.length > 0) {
+                    andConditions.push({
+                        OR: searchConditions,
+                    });
+                }
             }
             if (status) {
                 const statusValues = status
@@ -220,9 +236,11 @@ let RoomService = class RoomService {
     }
     async findAll() {
         try {
-            const room = await this.db.room.findMany({ include: {
+            const room = await this.db.room.findMany({
+                include: {
                     room_image: true,
-                } });
+                },
+            });
             return room;
         }
         catch (error) {

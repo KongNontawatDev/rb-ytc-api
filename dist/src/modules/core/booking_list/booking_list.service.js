@@ -54,13 +54,29 @@ let BookingListService = class BookingListService {
                 const searchFields = searchField
                     .split(',')
                     .map((field) => field.trim());
-                andConditions.push({
-                    OR: searchFields.map((field) => ({
+                const searchConditions = searchFields
+                    .map((field) => {
+                    if (field === 'id' || field === 'status') {
+                        const numValue = Number(textSearch);
+                        if (!isNaN(numValue)) {
+                            return {
+                                [field]: numValue,
+                            };
+                        }
+                        return undefined;
+                    }
+                    return {
                         [field]: {
                             contains: textSearch,
                         },
-                    })),
-                });
+                    };
+                })
+                    .filter((condition) => condition !== undefined);
+                if (searchConditions.length > 0) {
+                    andConditions.push({
+                        OR: searchConditions,
+                    });
+                }
             }
             if (status) {
                 const statusValues = status

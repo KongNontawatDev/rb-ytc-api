@@ -201,14 +201,35 @@ export class RoomService {
           .split(',')
           .map((field) => field.trim());
 
-        // Add `contains` search for each field
-        andConditions.push({
-          OR: searchFields.map((field) => ({
-            [field]: {
-              contains: textSearch,
-            },
-          })),
-        });
+        // แยกการค้นหาตามประเภทของ field
+        const searchConditions = searchFields
+          .map((field) => {
+            // สำหรับ field ที่เป็นตัวเลข
+            if (field === 'id' || field === 'status') {
+              const numValue = Number(textSearch);
+              // ตรวจสอบว่าค่าที่แปลงเป็นตัวเลขถูกต้องหรือไม่
+              if (!isNaN(numValue)) {
+                return {
+                  [field]: numValue,
+                };
+              }
+              // ถ้าแปลงเป็นตัวเลขไม่ได้ ให้ return undefined
+              return undefined;
+            }
+            // สำหรับ field ที่เป็น string
+            return {
+              [field]: {
+                contains: textSearch,
+              },
+            };
+          })
+          .filter((condition) => condition !== undefined); // กรองเอาเฉพาะเงื่อนไขที่ถูกต้อง
+
+        if (searchConditions.length > 0) {
+          andConditions.push({
+            OR: searchConditions,
+          });
+        }
       }
 
       if (status) {
@@ -272,9 +293,11 @@ export class RoomService {
 
   async findAll() {
     try {
-      const room = await this.db.room.findMany({include: {
-            room_image: true,
-          }});
+      const room = await this.db.room.findMany({
+        include: {
+          room_image: true,
+        },
+      });
       return room;
     } catch (error) {
       handlePrismaError(error);
