@@ -1,0 +1,18 @@
+import { ValidationOptions } from 'class-validator';
+export declare const IsRequiredField: (property?: string, options?: ValidationOptions) => (target: any, propertyKey: string) => void;
+export declare const IsRequiredFile: (property?: string, options?: ValidationOptions) => (target: any, propertyKey: string) => void;
+export declare const IsRequiredImage: (property?: string, options?: ValidationOptions) => (target: any, propertyKey: string) => void;
+export declare const IsValidString: (property?: string, options?: ValidationOptions) => (target: any, propertyKey: string) => void;
+export declare const IsValidEmail: (property?: string, options?: ValidationOptions) => (target: any, propertyKey: string) => void;
+export declare const HasMinLength: (min: number, property?: string, options?: ValidationOptions) => (target: any, propertyKey: string) => void;
+export declare const HasMaxLength: (max: number, property?: string, options?: ValidationOptions) => (target: any, propertyKey: string) => void;
+export declare const IsNumberStringField: (property?: string, options?: ValidationOptions) => (target: any, propertyKey: string) => void;
+export declare const IsInteger: (property?: string, options?: ValidationOptions) => (target: any, propertyKey: string) => void;
+export declare const IsDateField: (property?: string, options?: ValidationOptions) => (target: any, propertyKey: string) => void;
+export declare const IsArrayField: (property?: string, options?: ValidationOptions) => (target: any, propertyKey: string) => void;
+export declare const IsBooleanField: (property?: string, options?: ValidationOptions) => (target: any, propertyKey: string) => void;
+export declare const IsDecimalField: (property?: string, options?: ValidationOptions) => (target: any, propertyKey: string) => void;
+export declare const IsOptionalField: (property?: string, options?: ValidationOptions) => (target: any, propertyKey: string) => void;
+export declare const IsEmptyField: (property?: string, options?: ValidationOptions) => (target: any, propertyKey: string) => void;
+export declare const IsPhoneNumberField: (property?: string, options?: ValidationOptions) => (target: any, propertyKey: string) => void;
+export declare const IsPassword: (minLength?: number, maxLength?: number, options?: ValidationOptions) => (target: any, propertyKey: string) => void;

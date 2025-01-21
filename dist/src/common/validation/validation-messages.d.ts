@@ -1,0 +1,23 @@
+export declare const ValidationMessages: {
+    readonly string: "{property} ต้องเป็นข้อความ";
+    readonly email: "รูปแบบ {property} ไม่ถูกต้อง";
+    readonly required: "กรุณากรอก {property}";
+    readonly minLength: "{property} ต้องมีความยาวอย่างน้อย {min} ตัวอักษร";
+    readonly maxLength: "{property} ต้องมีความยาวไม่เกิน {max} ตัวอักษร";
+    readonly min: "{property} ต้องมีค่าอย่างน้อย {min}";
+    readonly max: "{property} ต้องมีค่าไม่เกิน {max}";
+    readonly matches: "{property} ต้องตรงตามรูปแบบที่กำหนด";
+    readonly invalidFormat: "รูปแบบ {property} ไม่ถูกต้อง";
+    readonly integer: "{property} ต้องเป็นจำนวนเต็ม";
+    readonly date: "{property} ต้องเป็นวันที่ที่ถูกต้อง";
+    readonly array: "{property} ต้องเป็นอาเรย์";
+    readonly boolean: "{property} ต้องเป็นค่าบูลีน";
+    readonly decimal: "{property} ต้องเป็นเลขทศนิยม";
+    readonly optional: "{property} เป็นตัวเลือก ไม่จำเป็นต้องกรอก";
+    readonly empty: "{property} ต้องเป็นค่าว่าง";
+    readonly phoneNumber: "{property} ต้องเป็นหมายเลขโทรศัพท์ที่ถูกต้อง";
+    readonly strongPassword: "{property} ต้องมีตัวพิมพ์ใหญ่ ตัวพิมพ์เล็ก ตัวเลข และอักขระพิเศษ";
+    readonly file: "กรุณาอัพโหลดไฟล์ {property}";
+    readonly image: "กรุณาอัพโหลดรูปภาพ {property}";
+    readonly numberString: "The field {property} must be a numeric string.";
+};
