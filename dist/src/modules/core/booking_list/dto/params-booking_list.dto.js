@@ -9,7 +9,7 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.UpdateManyBookingListDto = exports.DeleteManyBookingListDto = exports.DeleteBookingListParamDto = exports.UpdateBookingListParamDto = exports.findManyBookingListByUserForCalendarAndTimelineParamDto = exports.findManyBookingListByRoomForCalendarAndTimelineParamDto = exports.findManyBookingListByUserDto = exports.FindOneBookingListParamDto = exports.FindBookingListsByConditionQueryDto = void 0;
+exports.UpdateManyBookingListDto = exports.DeleteManyBookingListDto = exports.DeleteBookingListParamDto = exports.UpdateBookingListParamDto = exports.findManyBookingListByUserForCalendarAndTimelineParamDto = exports.findManyBookingListByRoomForCalendarAndTimelineParamDto = exports.findManyBookingListByUserDto = exports.FindRoomBookingDateParamDto = exports.FindOneBookingListParamDto = exports.FindBookingListsByConditionQueryDto = void 0;
 const base_dto_1 = require("../../../../common/dto/base.dto");
 const validation_decorator_1 = require("../../../../common/validation/validation.decorator");
 const class_validator_1 = require("class-validator");
@@ -49,6 +49,14 @@ __decorate([
     (0, validation_decorator_1.IsRequiredField)(),
     __metadata("design:type", String)
 ], FindOneBookingListParamDto.prototype, "id", void 0);
+class FindRoomBookingDateParamDto {
+}
+exports.FindRoomBookingDateParamDto = FindRoomBookingDateParamDto;
+__decorate([
+    (0, validation_decorator_1.IsNumberStringField)(),
+    (0, validation_decorator_1.IsRequiredField)(),
+    __metadata("design:type", String)
+], FindRoomBookingDateParamDto.prototype, "room_id", void 0);
 class findManyBookingListByUserDto {
 }
 exports.findManyBookingListByUserDto = findManyBookingListByUserDto;

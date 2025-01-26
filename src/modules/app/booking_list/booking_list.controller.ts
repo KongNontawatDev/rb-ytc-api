@@ -3,6 +3,7 @@ import { CreateBookingListDto } from '@modules/core/booking_list/dto/create-book
 import {
   findManyBookingListByUserDto,
   FindOneBookingListParamDto,
+  FindRoomBookingDateParamDto,
 } from '@modules/core/booking_list/dto/params-booking_list.dto';
 import {
   UpdateBookingListDto,
@@ -75,12 +76,27 @@ export class BookingListController {
     };
   }
 
+  @Get('room/booking_date/:room_id')
+  @UsePipes(new ValidationPipe({ transform: true }))
+  async findRoomBookedDates(@Param() params: FindRoomBookingDateParamDto) {
+    const data = await this.bookingListService.findRoomBookedDates(
+      +params.room_id,
+    );
+    return {
+      message: 'เรียกดูข้อมูลวันที่จองตามรหัสห้อง',
+      error: 0,
+      data,
+    };
+  }
+
   @Post()
   async create(@Body() body: CreateBookingListDto) {
     const data = await this.bookingListService.create(body);
     if (data) {
-
-      await this.lineMessageingService.pushMessage(data.user.line_id, bookingTemplate("จองห้องประชุมแล้ว",data,"#34A853"));
+      await this.lineMessageingService.pushMessage(
+        data.user.line_id,
+        bookingTemplate('จองห้องประชุมแล้ว', data, '#34A853'),
+      );
     }
     return {
       message: 'เพิ่มข้อมูลรายการจอง',
@@ -107,8 +123,10 @@ export class BookingListController {
   ) {
     const data = await this.bookingListService.updateStatusOne(+id, body);
     if (data) {
-
-      await this.lineMessageingService.pushMessage(data.user.line_id, bookingTemplate("ยกเลิกจองห้องประชุมแล้ว",data,"#EA4335"));
+      await this.lineMessageingService.pushMessage(
+        data.user.line_id,
+        bookingTemplate('ยกเลิกจองห้องประชุมแล้ว', data, '#EA4335'),
+      );
     }
     return {
       message: 'แก้ไขสถานะรายการจองตามรหัส',

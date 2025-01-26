@@ -160,7 +160,11 @@ export declare class BookingListService {
         created_at: Date;
         updated_at: Date;
     })[] | undefined>;
-    findAllCurrentMonth(): Promise<{
+    findAllCurrentMonth(): Promise<({
+        room: {
+            name: string;
+        };
+    } & {
         id: number;
         department_id: number;
         user_id: number;
@@ -175,7 +179,7 @@ export declare class BookingListService {
         status: number;
         created_at: Date;
         updated_at: Date;
-    }[] | undefined>;
+    })[] | undefined>;
     findManyByRoomForCalendarAndTimeline(room_id: number): Promise<{
         id: number;
         booking_number: string;
@@ -249,5 +253,6 @@ export declare class BookingListService {
         updated_at: Date;
     } | undefined>;
     removeMany(id: number[]): Promise<Prisma.BatchPayload | undefined>;
+    findRoomBookedDates(room_id: number): Promise<Date[]>;
     generateBookingNumber(): string;
 }

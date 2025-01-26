@@ -1,6 +1,6 @@
 import { BookingListService } from '@modules/core/booking_list/booking_list.service';
 import { CreateBookingListDto } from '@modules/core/booking_list/dto/create-booking_list.dto';
-import { findManyBookingListByUserDto, FindOneBookingListParamDto } from '@modules/core/booking_list/dto/params-booking_list.dto';
+import { findManyBookingListByUserDto, FindOneBookingListParamDto, FindRoomBookingDateParamDto } from '@modules/core/booking_list/dto/params-booking_list.dto';
 import { UpdateBookingListDto, UpdateStatusBookingListDto } from '@modules/core/booking_list/dto/update-booking_list.dto';
 import { LineMessagingService } from '@provider/line-messaging-api/line-messaging.service';
 export declare class BookingListController {
@@ -30,7 +30,11 @@ export declare class BookingListController {
     findAllCurrentMonth(): Promise<{
         message: string;
         error: number;
-        data: {
+        data: ({
+            room: {
+                name: string;
+            };
+        } & {
             id: number;
             department_id: number;
             user_id: number;
@@ -45,7 +49,7 @@ export declare class BookingListController {
             status: number;
             created_at: Date;
             updated_at: Date;
-        }[] | undefined;
+        })[] | undefined;
     }>;
     findAllByUser(params: findManyBookingListByUserDto): Promise<{
         message: string;
@@ -136,6 +140,11 @@ export declare class BookingListController {
             created_at: Date;
             updated_at: Date;
         }) | null | undefined;
+    }>;
+    findRoomBookedDates(params: FindRoomBookingDateParamDto): Promise<{
+        message: string;
+        error: number;
+        data: Date[];
     }>;
     create(body: CreateBookingListDto): Promise<{
         message: string;

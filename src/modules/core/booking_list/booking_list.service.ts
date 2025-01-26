@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateBookingListDto } from './dto/create-booking_list.dto';
 import {
   UpdateBookingListDto,
@@ -18,31 +18,57 @@ export class BookingListService {
     private db: PrismaService,
     private date: DateService,
   ) {}
+
   async create(data: CreateBookingListDto) {
+    // Normalize book_start and book_end to ignore seconds
+    const bookStart = dayjs(data.book_start).second(0);
+    const bookEnd = dayjs(data.book_end).second(0);
+  
+    const existingBookings = await this.db.booking_list.findMany({
+      where: {
+        room_id: data.room_id,
+        status: 1,
+        OR: [
+          {
+            book_start: { lte: bookEnd.utc().toDate() },
+            book_end: { gte: bookStart.utc().toDate() },
+          },
+          {
+            book_start: { gte: bookStart.utc().toDate(), lte: bookEnd.utc().toDate() },
+          },
+          {
+            book_start: { lte: bookStart.utc().toDate() },
+            book_end: { gte: bookEnd.utc().toDate() },
+          },
+        ],
+      },
+    });
+  
+    if (existingBookings.length > 0) {
+      throw new ConflictException(
+        `มีการจองห้องในช่วงเวลา ${bookStart.format('YYYY-MM-DD HH:mm:ss')} - ${bookEnd.format('YYYY-MM-DD HH:mm:ss')} แล้ว`,
+      );
+    }
+  
     try {
       return await this.db.booking_list.create({
         data: {
           ...data,
+          book_start:bookStart.utc().toDate(),
+          book_end:bookEnd.utc().toDate(),
           status: 1,
           booking_number: this.generateBookingNumber(),
         },
-        include:{
-          user:{
-            select:{
-              line_id:true
-            }
-          },
-          room:{
-            select:{
-              name:true
-            }
-          }
-        }
+        include: {
+          user: { select: { line_id: true } },
+          room: { select: { name: true } },
+        },
       });
     } catch (error) {
       handlePrismaError(error);
     }
   }
+  
 
   async findByCondition(query: FindBookingListsByConditionQueryDto) {
     const {
@@ -248,7 +274,7 @@ export class BookingListService {
     }
   }
 
-    async findManyByUser(user_id: number) {
+  async findManyByUser(user_id: number) {
     try {
       return await this.db.booking_list.findMany({
         where: { user_id },
@@ -279,9 +305,16 @@ export class BookingListService {
             lte: endOfMonth, // การจองสิ้นสุดภายในเดือน
           },
         },
-        orderBy:{
-          id:"desc"
-        }
+        include: {
+          room: {
+            select: {
+              name: true,
+            },
+          },
+        },
+        orderBy: {
+          id: 'desc',
+        },
       });
     } catch (error) {
       handlePrismaError(error);
@@ -353,18 +386,22 @@ export class BookingListService {
 
   async updateStatusOne(id: number, data: UpdateStatusBookingListDto) {
     try {
-      return await this.db.booking_list.update({ data, where: { id }, include:{
-          user:{
-            select:{
-              line_id:true
-            }
+      return await this.db.booking_list.update({
+        data,
+        where: { id },
+        include: {
+          user: {
+            select: {
+              line_id: true,
+            },
           },
-          room:{
-            select:{
-              name:true
-            }
-          }
-        } });
+          room: {
+            select: {
+              name: true,
+            },
+          },
+        },
+      });
     } catch (error) {
       handlePrismaError(error);
     }
@@ -392,6 +429,34 @@ export class BookingListService {
     } catch (error) {
       handlePrismaError(error);
     }
+  }
+
+  async findRoomBookedDates(room_id: number): Promise<Date[]> {
+    const bookings = await this.db.booking_list.findMany({
+      where: {
+        room_id,
+        status: 1,
+      },
+      select: {
+        book_start: true,
+        book_end: true,
+      },
+    });
+
+    const bookedDates = bookings.flatMap((booking) => {
+      const dates: Date[] = [];
+      let currentDate = dayjs(booking.book_start);
+      const endDate = dayjs(booking.book_end);
+
+      while (!currentDate.isAfter(endDate, 'day')) {
+        dates.push(currentDate.toDate());
+        currentDate = currentDate.add(1, 'day');
+      }
+
+      return dates;
+    });
+
+    return bookedDates;
   }
 
   generateBookingNumber() {

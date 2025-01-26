@@ -37,6 +37,12 @@ export class FindOneBookingListParamDto {
   @IsRequiredField()
   id: string;
 }
+
+export class FindRoomBookingDateParamDto {
+  @IsNumberStringField()
+  @IsRequiredField()
+  room_id: string;
+}
 export class findManyBookingListByUserDto {
   @IsNumberStringField()
   @IsRequiredField()

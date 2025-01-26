@@ -25,25 +25,43 @@ let BookingListService = class BookingListService {
         this.date = date;
     }
     async create(data) {
+        const bookStart = (0, dayjs_1.default)(data.book_start).second(0);
+        const bookEnd = (0, dayjs_1.default)(data.book_end).second(0);
+        const existingBookings = await this.db.booking_list.findMany({
+            where: {
+                room_id: data.room_id,
+                status: 1,
+                OR: [
+                    {
+                        book_start: { lte: bookEnd.utc().toDate() },
+                        book_end: { gte: bookStart.utc().toDate() },
+                    },
+                    {
+                        book_start: { gte: bookStart.utc().toDate(), lte: bookEnd.utc().toDate() },
+                    },
+                    {
+                        book_start: { lte: bookStart.utc().toDate() },
+                        book_end: { gte: bookEnd.utc().toDate() },
+                    },
+                ],
+            },
+        });
+        if (existingBookings.length > 0) {
+            throw new common_1.ConflictException(`มีการจองห้องในช่วงเวลา ${bookStart.format('YYYY-MM-DD HH:mm:ss')} - ${bookEnd.format('YYYY-MM-DD HH:mm:ss')} แล้ว`);
+        }
         try {
             return await this.db.booking_list.create({
                 data: {
                     ...data,
+                    book_start: bookStart.utc().toDate(),
+                    book_end: bookEnd.utc().toDate(),
                     status: 1,
                     booking_number: this.generateBookingNumber(),
                 },
                 include: {
-                    user: {
-                        select: {
-                            line_id: true
-                        }
-                    },
-                    room: {
-                        select: {
-                            name: true
-                        }
-                    }
-                }
+                    user: { select: { line_id: true } },
+                    room: { select: { name: true } },
+                },
             });
         }
         catch (error) {
@@ -246,9 +264,16 @@ let BookingListService = class BookingListService {
                         lte: endOfMonth,
                     },
                 },
+                include: {
+                    room: {
+                        select: {
+                            name: true,
+                        },
+                    },
+                },
                 orderBy: {
-                    id: "desc"
-                }
+                    id: 'desc',
+                },
             });
         }
         catch (error) {
@@ -320,18 +345,22 @@ let BookingListService = class BookingListService {
     }
     async updateStatusOne(id, data) {
         try {
-            return await this.db.booking_list.update({ data, where: { id }, include: {
+            return await this.db.booking_list.update({
+                data,
+                where: { id },
+                include: {
                     user: {
                         select: {
-                            line_id: true
-                        }
+                            line_id: true,
+                        },
                     },
                     room: {
                         select: {
-                            name: true
-                        }
-                    }
-                } });
+                            name: true,
+                        },
+                    },
+                },
+            });
         }
         catch (error) {
             (0, prisma_error_handler_1.handlePrismaError)(error);
@@ -360,6 +389,29 @@ let BookingListService = class BookingListService {
         catch (error) {
             (0, prisma_error_handler_1.handlePrismaError)(error);
         }
+    }
+    async findRoomBookedDates(room_id) {
+        const bookings = await this.db.booking_list.findMany({
+            where: {
+                room_id,
+                status: 1,
+            },
+            select: {
+                book_start: true,
+                book_end: true,
+            },
+        });
+        const bookedDates = bookings.flatMap((booking) => {
+            const dates = [];
+            let currentDate = (0, dayjs_1.default)(booking.book_start);
+            const endDate = (0, dayjs_1.default)(booking.book_end);
+            while (!currentDate.isAfter(endDate, 'day')) {
+                dates.push(currentDate.toDate());
+                currentDate = currentDate.add(1, 'day');
+            }
+            return dates;
+        });
+        return bookedDates;
     }
     generateBookingNumber() {
         const fullUUID = (0, uuid_1.v4)().replace(/-/g, '');

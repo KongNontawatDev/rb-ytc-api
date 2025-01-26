@@ -2258,6 +2258,20 @@
         ]
       }
     },
+    "/api/app/booking_list/room/booking_date/{room_id}": {
+      "get": {
+        "operationId": "BookingListController_findRoomBookedDates",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "BookingList"
+        ]
+      }
+    },
     "/api/app/booking_list/update/status/{id}": {
       "patch": {
         "operationId": "BookingListController_updateStatusOne",

@@ -57,10 +57,18 @@ let BookingListController = class BookingListController {
             data,
         };
     }
+    async findRoomBookedDates(params) {
+        const data = await this.bookingListService.findRoomBookedDates(+params.room_id);
+        return {
+            message: 'เรียกดูข้อมูลวันที่จองตามรหัสห้อง',
+            error: 0,
+            data,
+        };
+    }
     async create(body) {
         const data = await this.bookingListService.create(body);
         if (data) {
-            await this.lineMessageingService.pushMessage(data.user.line_id, (0, booking_template_1.bookingTemplate)("จองห้องประชุมแล้ว", data, "#34A853"));
+            await this.lineMessageingService.pushMessage(data.user.line_id, (0, booking_template_1.bookingTemplate)('จองห้องประชุมแล้ว', data, '#34A853'));
         }
         return {
             message: 'เพิ่มข้อมูลรายการจอง',
@@ -79,7 +87,7 @@ let BookingListController = class BookingListController {
     async updateStatusOne(id, body) {
         const data = await this.bookingListService.updateStatusOne(+id, body);
         if (data) {
-            await this.lineMessageingService.pushMessage(data.user.line_id, (0, booking_template_1.bookingTemplate)("ยกเลิกจองห้องประชุมแล้ว", data, "#EA4335"));
+            await this.lineMessageingService.pushMessage(data.user.line_id, (0, booking_template_1.bookingTemplate)('ยกเลิกจองห้องประชุมแล้ว', data, '#EA4335'));
         }
         return {
             message: 'แก้ไขสถานะรายการจองตามรหัส',
@@ -117,6 +125,14 @@ __decorate([
     __metadata("design:paramtypes", [params_booking_list_dto_1.FindOneBookingListParamDto]),
     __metadata("design:returntype", Promise)
 ], BookingListController.prototype, "findOne", null);
+__decorate([
+    (0, common_1.Get)('room/booking_date/:room_id'),
+    (0, common_1.UsePipes)(new common_1.ValidationPipe({ transform: true })),
+    __param(0, (0, common_1.Param)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [params_booking_list_dto_1.FindRoomBookingDateParamDto]),
+    __metadata("design:returntype", Promise)
+], BookingListController.prototype, "findRoomBookedDates", null);
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),

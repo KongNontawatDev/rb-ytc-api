@@ -9,6 +9,9 @@ export declare class FindBookingListsByConditionQueryDto extends BaseQueryDto {
 export declare class FindOneBookingListParamDto {
     id: string;
 }
+export declare class FindRoomBookingDateParamDto {
+    room_id: string;
+}
 export declare class findManyBookingListByUserDto {
     user_id: string;
 }
