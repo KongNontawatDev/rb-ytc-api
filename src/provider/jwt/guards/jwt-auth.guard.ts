@@ -7,8 +7,8 @@ import {
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
 import { Observable } from 'rxjs';
-import { IS_PUBLIC_KEY } from 'src/common/decorators/public.decorator';
-import { LoggerService } from 'src/common/logger/logger.service';
+import { IS_PUBLIC_KEY } from '@common/decorators/public.decorator';
+import { LoggerService } from '@common/logger/logger.service';
 import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()

@@ -25,12 +25,7 @@ let TestController = class TestController {
         return this.testService.create(createTestDto);
     }
     findAll() {
-        const data = this.testService.findAll();
-        return {
-            data,
-            error: 0,
-            message: 'ทดสอบ'
-        };
+        return this.testService.findAll();
     }
     findOne(id) {
         return this.testService.findOne(+id);
@@ -79,10 +74,7 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], TestController.prototype, "remove", null);
 exports.TestController = TestController = __decorate([
-    (0, common_1.Controller)({
-        path: 'core/test',
-        version: '1'
-    }),
+    (0, common_1.Controller)('test'),
     __metadata("design:paramtypes", [test_service_1.TestService])
 ], TestController);
 //# sourceMappingURL=test.controller.js.map

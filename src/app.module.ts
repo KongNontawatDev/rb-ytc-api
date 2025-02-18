@@ -9,15 +9,27 @@ import { HttpInterceptor } from './common/intercetors/http.intercetor';
 import { MailerModule } from './provider/mailer/mailer.module';
 import { ConfigModule } from '@nestjs/config';
 import configuration from './config/config';
-import {AppModule as AppClientModule} from './modules/app/app.module'
+import { AppModule as AppClientModule } from './modules/app/app.module';
+import { ThrottlerModule } from '@nestjs/throttler';
 @Module({
-  imports: [PrismaModule, AdminModule,AppClientModule, CoreModule,MailerModule,
+  imports: [
+    PrismaModule,
+    AdminModule,
+    AppClientModule,
+    CoreModule,
+    MailerModule,
+    LoggerModule,
     ConfigModule.forRoot({
       isGlobal: true,
       load: [configuration],
     }),
-    LoggerModule
-    ],
+    ThrottlerModule.forRoot([
+      {
+        ttl: 60000,
+        limit: 100,
+      },
+    ]),
+  ],
   providers: [
     LoggerService,
     {
@@ -27,4 +39,3 @@ import {AppModule as AppClientModule} from './modules/app/app.module'
   ],
 })
 export class AppModule {}
-

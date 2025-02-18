@@ -22,17 +22,29 @@ const mailer_module_1 = require("./provider/mailer/mailer.module");
 const config_1 = require("@nestjs/config");
 const config_2 = __importDefault(require("./config/config"));
 const app_module_1 = require("./modules/app/app.module");
+const throttler_1 = require("@nestjs/throttler");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [prisma_module_1.PrismaModule, admin_module_1.AdminModule, app_module_1.AppModule, core_module_1.CoreModule, mailer_module_1.MailerModule,
+        imports: [
+            prisma_module_1.PrismaModule,
+            admin_module_1.AdminModule,
+            app_module_1.AppModule,
+            core_module_1.CoreModule,
+            mailer_module_1.MailerModule,
+            logger_module_1.LoggerModule,
             config_1.ConfigModule.forRoot({
                 isGlobal: true,
                 load: [config_2.default],
             }),
-            logger_module_1.LoggerModule
+            throttler_1.ThrottlerModule.forRoot([
+                {
+                    ttl: 60000,
+                    limit: 100,
+                },
+            ]),
         ],
         providers: [
             logger_service_1.LoggerService,

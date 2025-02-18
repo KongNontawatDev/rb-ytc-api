@@ -32,14 +32,17 @@ var __importStar = (this && this.__importStar) || (function () {
         return result;
     };
 })();
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 const core_1 = require("@nestjs/core");
 const app_module_1 = require("./app.module");
 const common_1 = require("@nestjs/common");
-const swagger_1 = require("@nestjs/swagger");
-const fs = __importStar(require("fs"));
 const express = __importStar(require("express"));
 const jwt_subject_intercetor_1 = require("./common/intercetors/jwt-subject-intercetor");
+const swagger_1 = require("./config/swagger");
+const helmet_1 = __importDefault(require("helmet"));
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     app.enableCors({
@@ -56,26 +59,8 @@ async function bootstrap() {
     });
     app.useGlobalPipes(new common_1.ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }));
     app.useGlobalInterceptors(new jwt_subject_intercetor_1.JwtSubjectInterceptor());
-    const config = new swagger_1.DocumentBuilder()
-        .setOpenAPIVersion('3.1')
-        .setTitle('API Title')
-        .setDescription('API description')
-        .setVersion('1.0')
-        .addApiKey({ type: 'apiKey', name: 'x-version', in: 'header' }, 'x-version')
-        .addServer('http://localhost:3000', 'Local server')
-        .addServer('https://nakdev.com', 'Production server')
-        .addBearerAuth()
-        .build();
-    const document = swagger_1.SwaggerModule.createDocument(app, config);
-    fs.writeFileSync('./swagger-spec.json', JSON.stringify(document, null, 2));
-    swagger_1.SwaggerModule.setup('swagger', app, document, {
-        swaggerOptions: {
-            tryItOutEnabled: true,
-            showCurl: false,
-            persistAuthorization: true,
-            defaultModelsExpandDepth: -1,
-        },
-    });
+    (0, swagger_1.setupSwagger)(app);
+    app.use((0, helmet_1.default)());
     app.use('/', express.static('public'));
     await app.listen(process.env.PORT ?? 3000);
 }

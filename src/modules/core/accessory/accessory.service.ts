@@ -2,11 +2,11 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreateAccessoryDto } from './dto/create-accessory.dto';
 import { UpdateAccessoryDto, UpdateStatusAccessoryDto } from './dto/update-accessory.dto';
 import { Prisma } from '@prisma/client';
-import { handlePrismaError } from 'src/common/exceptions/prisma-error.handler';
+import { handlePrismaError } from '@common/exceptions/prisma-error.handler';
 import { FindAccessorysByConditionQueryDto } from './dto/params-accessory.dto';
 import { FileService } from '@common/utils/file/file.service';
 import path from 'path';
-import { PrismaService } from 'src/provider/prisma/prisma.service';
+import { PrismaService } from '@provider/prisma/prisma.service';
 import { CompressionService } from '@common/utils/compression/compression.service';
 @Injectable()
 export class AccessoryService {
@@ -242,12 +242,12 @@ export class AccessoryService {
     }
   }
 
-  async updateStatusMany(ids: number[], status: number) {
+  async updateStatusMany(id: number[], status: number):Promise<{count:number}|undefined> {
     try {
       return await this.db.accessory.updateMany({
         where: {
           id: {
-            in: ids, // กำหนดให้ค้นหา id ที่อยู่ใน array ids
+            in: id, // กำหนดให้ค้นหา id ที่อยู่ใน array ids
           },
         },
         data: {
@@ -282,7 +282,7 @@ export class AccessoryService {
     }
   }
 
-  async removeMany(id: number[]) {
+  async removeMany(id: number[]):Promise<{count:number}|undefined> {
     try {
       // ดึงข้อมูลรูปภาพที่เกี่ยวข้องกับแอดมินหลายคน
       const admins = await this.db.accessory.findMany({

@@ -1,0 +1,5028 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/api/admin/user": {
+      "post": {
+        "operationId": "UserController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "User"
+        ]
+      },
+      "get": {
+        "operationId": "UserController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/api/admin/user/search": {
+      "get": {
+        "operationId": "UserController_findByCondition",
+        "parameters": [
+          {
+            "name": "textSearch",
+            "required": false,
+            "in": "query",
+            "description": "Search text (comma-separated for multiple values)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "searchField",
+            "required": false,
+            "in": "query",
+            "description": "Fields to search in (comma-separated for multiple fields)",
+            "schema": {
+              "example": "id,name",
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "example": "1",
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageSize",
+            "required": false,
+            "in": "query",
+            "description": "Number of items per page",
+            "schema": {
+              "example": "10",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortField",
+            "required": false,
+            "in": "query",
+            "description": "Field to sort by",
+            "schema": {
+              "example": "id",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "description": "Sort order",
+            "schema": {
+              "example": "desc",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/api/admin/user/{id}": {
+      "get": {
+        "operationId": "UserController_findOne",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "User"
+        ]
+      },
+      "patch": {
+        "operationId": "UserController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "User"
+        ]
+      },
+      "delete": {
+        "operationId": "UserController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/api/admin/user/list/dropdown": {
+      "get": {
+        "operationId": "UserController_findForDropdown",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/api/admin/user/delete-many": {
+      "post": {
+        "operationId": "UserController_removeMany",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteManyUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/api/admin/user/update/status/{id}": {
+      "patch": {
+        "operationId": "UserController_updateStatusOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStatusUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/api/admin/user/update-status-many": {
+      "post": {
+        "operationId": "UserController_updateStatusMany",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateManyUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/api/admin/auth/signin": {
+      "post": {
+        "operationId": "AuthController_signIn",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignInDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/admin/auth/signup": {
+      "post": {
+        "operationId": "AuthController_signUp",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SignUpDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/admin/auth/forgot-password": {
+      "post": {
+        "operationId": "AuthController_forgotPassword",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ForgotPasswordDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/admin/auth/reset-password": {
+      "post": {
+        "operationId": "AuthController_resetPassword",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ResetPasswordDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/admin/auth/change-password/owner": {
+      "post": {
+        "operationId": "AuthController_changePasswordFormOwner",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordFromOwnerDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/admin/auth/change-password/other": {
+      "post": {
+        "operationId": "AuthController_changePasswordFromOther",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChangePasswordFromOtherDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/admin/auth/refresh-token": {
+      "post": {
+        "operationId": "AuthController_refreshToken",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/admin/auth/logout": {
+      "post": {
+        "operationId": "AuthController_logout",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/admin/access-control/grant": {
+      "post": {
+        "operationId": "AccessControlController_grantPermission",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AccessControl"
+        ]
+      }
+    },
+    "/api/admin/access-control/revoke": {
+      "post": {
+        "operationId": "AccessControlController_revokePermission",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AccessControl"
+        ]
+      }
+    },
+    "/api/admin/access-control/check/{role_id}/{resource}/{action}": {
+      "get": {
+        "operationId": "AccessControlController_checkPermission",
+        "parameters": [
+          {
+            "name": "role_id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "resource",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "action",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "AccessControl"
+        ]
+      }
+    },
+    "/api/admin/admin": {
+      "post": {
+        "operationId": "AdminController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAdminDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Admin"
+        ]
+      },
+      "get": {
+        "operationId": "AdminController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Admin"
+        ]
+      }
+    },
+    "/api/admin/admin/search": {
+      "get": {
+        "operationId": "AdminController_findByCondition",
+        "parameters": [
+          {
+            "name": "textSearch",
+            "required": false,
+            "in": "query",
+            "description": "Search text (comma-separated for multiple values)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "searchField",
+            "required": false,
+            "in": "query",
+            "description": "Fields to search in (comma-separated for multiple fields)",
+            "schema": {
+              "example": "id,name",
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "example": "1",
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageSize",
+            "required": false,
+            "in": "query",
+            "description": "Number of items per page",
+            "schema": {
+              "example": "10",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortField",
+            "required": false,
+            "in": "query",
+            "description": "Field to sort by",
+            "schema": {
+              "example": "id",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "description": "Sort order",
+            "schema": {
+              "example": "desc",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Admin"
+        ]
+      }
+    },
+    "/api/admin/admin/{id}": {
+      "get": {
+        "operationId": "AdminController_findOne",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Admin"
+        ]
+      },
+      "patch": {
+        "operationId": "AdminController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAdminDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Admin"
+        ]
+      },
+      "delete": {
+        "operationId": "AdminController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Admin"
+        ]
+      }
+    },
+    "/api/admin/admin/delete-many": {
+      "post": {
+        "operationId": "AdminController_removeMany",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteManyAdminDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Admin"
+        ]
+      }
+    },
+    "/api/admin/admin/update/status/{id}": {
+      "patch": {
+        "operationId": "AdminController_updateStatusOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStatusAdminDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Admin"
+        ]
+      }
+    },
+    "/api/admin/admin/update-status-many": {
+      "post": {
+        "operationId": "AdminController_updateStatusMany",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateManyAdminDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Admin"
+        ]
+      }
+    },
+    "/api/admin/accessory": {
+      "post": {
+        "operationId": "AccessoryController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAccessoryDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Accessory"
+        ]
+      },
+      "get": {
+        "operationId": "AccessoryController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Accessory"
+        ]
+      }
+    },
+    "/api/admin/accessory/search": {
+      "get": {
+        "operationId": "AccessoryController_findByCondition",
+        "parameters": [
+          {
+            "name": "textSearch",
+            "required": false,
+            "in": "query",
+            "description": "Search text (comma-separated for multiple values)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "searchField",
+            "required": false,
+            "in": "query",
+            "description": "Fields to search in (comma-separated for multiple fields)",
+            "schema": {
+              "example": "id,name",
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "example": "1",
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageSize",
+            "required": false,
+            "in": "query",
+            "description": "Number of items per page",
+            "schema": {
+              "example": "10",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortField",
+            "required": false,
+            "in": "query",
+            "description": "Field to sort by",
+            "schema": {
+              "example": "id",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "description": "Sort order",
+            "schema": {
+              "example": "desc",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Accessory"
+        ]
+      }
+    },
+    "/api/admin/accessory/{id}": {
+      "get": {
+        "operationId": "AccessoryController_findOne",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Accessory"
+        ]
+      },
+      "patch": {
+        "operationId": "AccessoryController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAccessoryDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Accessory"
+        ]
+      },
+      "delete": {
+        "operationId": "AccessoryController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Accessory"
+        ]
+      }
+    },
+    "/api/admin/accessory/list/dropdown": {
+      "get": {
+        "operationId": "AccessoryController_findForDropdown",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Accessory"
+        ]
+      }
+    },
+    "/api/admin/accessory/update/status/{id}": {
+      "patch": {
+        "operationId": "AccessoryController_updateStatusOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStatusAccessoryDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Accessory"
+        ]
+      }
+    },
+    "/api/admin/accessory/delete-many": {
+      "post": {
+        "operationId": "AccessoryController_removeMany",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteManyAccessoryDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Accessory"
+        ]
+      }
+    },
+    "/api/admin/accessory/update-status-many": {
+      "post": {
+        "operationId": "AccessoryController_updateStatusMany",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateManyAccessoryDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Accessory"
+        ]
+      }
+    },
+    "/api/admin/department": {
+      "post": {
+        "operationId": "DepartmentController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDepartmentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Department"
+        ]
+      },
+      "get": {
+        "operationId": "DepartmentController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Department"
+        ]
+      }
+    },
+    "/api/admin/department/search": {
+      "get": {
+        "operationId": "DepartmentController_findByCondition",
+        "parameters": [
+          {
+            "name": "textSearch",
+            "required": false,
+            "in": "query",
+            "description": "Search text (comma-separated for multiple values)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "searchField",
+            "required": false,
+            "in": "query",
+            "description": "Fields to search in (comma-separated for multiple fields)",
+            "schema": {
+              "example": "id,name",
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "example": "1",
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageSize",
+            "required": false,
+            "in": "query",
+            "description": "Number of items per page",
+            "schema": {
+              "example": "10",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortField",
+            "required": false,
+            "in": "query",
+            "description": "Field to sort by",
+            "schema": {
+              "example": "id",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "description": "Sort order",
+            "schema": {
+              "example": "desc",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Department"
+        ]
+      }
+    },
+    "/api/admin/department/{id}": {
+      "get": {
+        "operationId": "DepartmentController_findOne",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Department"
+        ]
+      },
+      "patch": {
+        "operationId": "DepartmentController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDepartmentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Department"
+        ]
+      },
+      "delete": {
+        "operationId": "DepartmentController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Department"
+        ]
+      }
+    },
+    "/api/admin/department/list/dropdown": {
+      "get": {
+        "operationId": "DepartmentController_findForDropdown",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Department"
+        ]
+      }
+    },
+    "/api/admin/department/delete-many": {
+      "post": {
+        "operationId": "DepartmentController_removeMany",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteManyDepartmentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Department"
+        ]
+      }
+    },
+    "/api/admin/department/update/status/{id}": {
+      "patch": {
+        "operationId": "DepartmentController_updateStatusOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStatusDepartmentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Department"
+        ]
+      }
+    },
+    "/api/admin/department/update-status-many": {
+      "post": {
+        "operationId": "DepartmentController_updateStatusMany",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateManyDepartmentDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Department"
+        ]
+      }
+    },
+    "/api/admin/room": {
+      "post": {
+        "operationId": "RoomController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoomDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Room"
+        ]
+      },
+      "get": {
+        "operationId": "RoomController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Room"
+        ]
+      }
+    },
+    "/api/admin/room/{id}": {
+      "patch": {
+        "operationId": "RoomController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoomDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Room"
+        ]
+      },
+      "get": {
+        "operationId": "RoomController_findOne",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Room"
+        ]
+      },
+      "delete": {
+        "operationId": "RoomController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Room"
+        ]
+      }
+    },
+    "/api/admin/room/search": {
+      "get": {
+        "operationId": "RoomController_findByCondition",
+        "parameters": [
+          {
+            "name": "textSearch",
+            "required": false,
+            "in": "query",
+            "description": "Search text (comma-separated for multiple values)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "searchField",
+            "required": false,
+            "in": "query",
+            "description": "Fields to search in (comma-separated for multiple fields)",
+            "schema": {
+              "example": "id,name",
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "example": "1",
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageSize",
+            "required": false,
+            "in": "query",
+            "description": "Number of items per page",
+            "schema": {
+              "example": "10",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortField",
+            "required": false,
+            "in": "query",
+            "description": "Field to sort by",
+            "schema": {
+              "example": "id",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "description": "Sort order",
+            "schema": {
+              "example": "desc",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Room"
+        ]
+      }
+    },
+    "/api/admin/room/list/dropdown": {
+      "get": {
+        "operationId": "RoomController_findForDropdown",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Room"
+        ]
+      }
+    },
+    "/api/admin/room/delete-many": {
+      "post": {
+        "operationId": "RoomController_removeMany",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteManyRoomDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Room"
+        ]
+      }
+    },
+    "/api/admin/room/update-status-many": {
+      "post": {
+        "operationId": "RoomController_updateStatusMany",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateManyRoomDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Room"
+        ]
+      }
+    },
+    "/api/admin/room/update/status/{id}": {
+      "patch": {
+        "operationId": "RoomController_updateStatusOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStatusRoomDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Room"
+        ]
+      }
+    },
+    "/api/admin/booking_list": {
+      "post": {
+        "operationId": "BookingListController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBookingListDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "BookingList"
+        ]
+      },
+      "get": {
+        "operationId": "BookingListController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "BookingList"
+        ]
+      }
+    },
+    "/api/admin/booking_list/search": {
+      "get": {
+        "operationId": "BookingListController_findByCondition",
+        "parameters": [
+          {
+            "name": "textSearch",
+            "required": false,
+            "in": "query",
+            "description": "Search text (comma-separated for multiple values)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "searchField",
+            "required": false,
+            "in": "query",
+            "description": "Fields to search in (comma-separated for multiple fields)",
+            "schema": {
+              "example": "id,name",
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "example": "1",
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageSize",
+            "required": false,
+            "in": "query",
+            "description": "Number of items per page",
+            "schema": {
+              "example": "10",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortField",
+            "required": false,
+            "in": "query",
+            "description": "Field to sort by",
+            "schema": {
+              "example": "id",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "description": "Sort order",
+            "schema": {
+              "example": "desc",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "BookingList"
+        ]
+      }
+    },
+    "/api/admin/booking_list/{id}": {
+      "get": {
+        "operationId": "BookingListController_findOne",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "BookingList"
+        ]
+      },
+      "patch": {
+        "operationId": "BookingListController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBookingListDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "BookingList"
+        ]
+      },
+      "delete": {
+        "operationId": "BookingListController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "BookingList"
+        ]
+      }
+    },
+    "/api/admin/booking_list/list/count": {
+      "get": {
+        "operationId": "BookingListController_findCount",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "BookingList"
+        ]
+      }
+    },
+    "/api/admin/booking_list/room/calendar-and-timeline/{room_id}": {
+      "get": {
+        "operationId": "BookingListController_findManyByRoomForCalendarAndTimeline",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "BookingList"
+        ]
+      }
+    },
+    "/api/admin/booking_list/user/calendar-and-timeline/{user_id}": {
+      "get": {
+        "operationId": "BookingListController_findManyByUserForCalendarAndTimeline",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "BookingList"
+        ]
+      }
+    },
+    "/api/admin/booking_list/delete-many": {
+      "post": {
+        "operationId": "BookingListController_removeMany",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteManyBookingListDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "BookingList"
+        ]
+      }
+    },
+    "/api/admin/booking_list/update-status-many": {
+      "post": {
+        "operationId": "BookingListController_updateStatusMany",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateManyBookingListDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "BookingList"
+        ]
+      }
+    },
+    "/api/admin/booking_list/update/status/{id}": {
+      "patch": {
+        "operationId": "BookingListController_updateStatusOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStatusBookingListDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "BookingList"
+        ]
+      }
+    },
+    "/api/admin/dashboard": {
+      "get": {
+        "operationId": "DashboardController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Dashboard"
+        ]
+      }
+    },
+    "/api/app/auth/check_register": {
+      "post": {
+        "operationId": "AuthController_checkRegister",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/app/auth/register": {
+      "post": {
+        "operationId": "AuthController_register",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/app/user/{id}": {
+      "get": {
+        "operationId": "UserController_findOne",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "User"
+        ]
+      },
+      "patch": {
+        "operationId": "UserController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateUserDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "User"
+        ]
+      }
+    },
+    "/api/app/room/search": {
+      "get": {
+        "operationId": "RoomController_findByCondition",
+        "parameters": [
+          {
+            "name": "textSearch",
+            "required": false,
+            "in": "query",
+            "description": "Search text (comma-separated for multiple values)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "searchField",
+            "required": false,
+            "in": "query",
+            "description": "Fields to search in (comma-separated for multiple fields)",
+            "schema": {
+              "example": "id,name",
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "example": "1",
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageSize",
+            "required": false,
+            "in": "query",
+            "description": "Number of items per page",
+            "schema": {
+              "example": "10",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortField",
+            "required": false,
+            "in": "query",
+            "description": "Field to sort by",
+            "schema": {
+              "example": "id",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "description": "Sort order",
+            "schema": {
+              "example": "desc",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Room"
+        ]
+      }
+    },
+    "/api/app/room": {
+      "get": {
+        "operationId": "RoomController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Room"
+        ]
+      }
+    },
+    "/api/app/room/status/empty": {
+      "get": {
+        "operationId": "RoomController_findRoomEmpty",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Room"
+        ]
+      }
+    },
+    "/api/app/room/{id}": {
+      "get": {
+        "operationId": "RoomController_findOne",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Room"
+        ]
+      }
+    },
+    "/api/app/room/list/dropdown": {
+      "get": {
+        "operationId": "RoomController_findForDropdown",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Room"
+        ]
+      }
+    },
+    "/api/app/department/list/dropdown": {
+      "get": {
+        "operationId": "DepartmentController_findForDropdown",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Department"
+        ]
+      }
+    },
+    "/api/app/booking_list": {
+      "get": {
+        "operationId": "BookingListController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "BookingList"
+        ]
+      },
+      "post": {
+        "operationId": "BookingListController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateBookingListDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "BookingList"
+        ]
+      }
+    },
+    "/api/app/booking_list/by/month": {
+      "get": {
+        "operationId": "BookingListController_findAllCurrentMonth",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "BookingList"
+        ]
+      }
+    },
+    "/api/app/booking_list/by/user/{user_id}": {
+      "get": {
+        "operationId": "BookingListController_findAllByUser",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "BookingList"
+        ]
+      }
+    },
+    "/api/app/booking_list/{id}": {
+      "get": {
+        "operationId": "BookingListController_findOne",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "BookingList"
+        ]
+      },
+      "patch": {
+        "operationId": "BookingListController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateBookingListDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "BookingList"
+        ]
+      }
+    },
+    "/api/app/booking_list/room/booking_date/{room_id}": {
+      "get": {
+        "operationId": "BookingListController_findRoomBookedDates",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "BookingList"
+        ]
+      }
+    },
+    "/api/app/booking_list/update/status/{id}": {
+      "patch": {
+        "operationId": "BookingListController_updateStatusOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateStatusBookingListDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "BookingList"
+        ]
+      }
+    },
+    "/api/core/swagger": {
+      "get": {
+        "operationId": "SwaggerController_getSwaggerJson",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Swagger"
+        ]
+      }
+    },
+    "/api/test": {
+      "post": {
+        "operationId": "TestController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateTestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Test"
+        ]
+      },
+      "get": {
+        "operationId": "TestController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Test"
+        ]
+      }
+    },
+    "/api/test/{id}": {
+      "get": {
+        "operationId": "TestController_findOne",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Test"
+        ]
+      },
+      "patch": {
+        "operationId": "TestController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateTestDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Test"
+        ]
+      },
+      "delete": {
+        "operationId": "TestController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Test"
+        ]
+      }
+    },
+    "/api/core/health": {
+      "get": {
+        "operationId": "HealthController_checkHealth",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "The Health Check is successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "ok"
+                    },
+                    "info": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": true
+                      },
+                      "nullable": true
+                    },
+                    "error": {
+                      "type": "object",
+                      "example": {},
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": true
+                      },
+                      "nullable": true
+                    },
+                    "details": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "503": {
+            "description": "The Health Check is not successful",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "status": {
+                      "type": "string",
+                      "example": "error"
+                    },
+                    "info": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": true
+                      },
+                      "nullable": true
+                    },
+                    "error": {
+                      "type": "object",
+                      "example": {
+                        "redis": {
+                          "status": "down",
+                          "message": "Could not connect"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": true
+                      },
+                      "nullable": true
+                    },
+                    "details": {
+                      "type": "object",
+                      "example": {
+                        "database": {
+                          "status": "up"
+                        },
+                        "redis": {
+                          "status": "down",
+                          "message": "Could not connect"
+                        }
+                      },
+                      "additionalProperties": {
+                        "type": "object",
+                        "required": [
+                          "status"
+                        ],
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          }
+                        },
+                        "additionalProperties": true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "tags": [
+          "Health"
+        ]
+      }
+    },
+    "/api/core/province": {
+      "post": {
+        "description": "เพิ่มข้อมูลจังหวัด",
+        "operationId": "ProvinceController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateProvinceDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Operation successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Operation successful.",
+                    "error": 0,
+                    "data": {
+                      "id": 1,
+                      "name": "ยโสธร"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": [
+                      "Invalid input"
+                    ],
+                    "error": "Bad Request",
+                    "statusCode": 400
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "ต้องเข้าสู่ระบบก่อน",
+                    "error": "Unauthorized",
+                    "statusCode": 401
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "คุณไม่ได้รับอนุญาติให้กระทำสิ่งนี้",
+                    "error": "Forbidden",
+                    "statusCode": 401
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Resource not found",
+                    "error": "Not Found",
+                    "statusCode": 404
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Province"
+        ]
+      },
+      "get": {
+        "description": "เรียกดูจังหวัดทั้งหมด",
+        "operationId": "ProvinceController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Operation successful.",
+                    "error": 0,
+                    "data": [
+                      {
+                        "id": 1,
+                        "name": "กรุงเทพ"
+                      },
+                      {
+                        "id": 2,
+                        "name": "ยโสธร"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": [
+                      "Invalid input"
+                    ],
+                    "error": "Bad Request",
+                    "statusCode": 400
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Resource not found",
+                    "error": "Not Found",
+                    "statusCode": 404
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Province"
+        ]
+      }
+    },
+    "/api/core/province/search": {
+      "get": {
+        "description": "เรียกดูจังหวัดตามเงื่อนไข",
+        "operationId": "ProvinceController_findByCondition",
+        "parameters": [
+          {
+            "name": "textSearch",
+            "required": false,
+            "in": "query",
+            "description": "Search text (comma-separated for multiple values)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "searchField",
+            "required": false,
+            "in": "query",
+            "description": "Fields to search in (comma-separated for multiple fields)",
+            "schema": {
+              "example": "id,name",
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "example": "1",
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageSize",
+            "required": false,
+            "in": "query",
+            "description": "Number of items per page",
+            "schema": {
+              "example": "10",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortField",
+            "required": false,
+            "in": "query",
+            "description": "Field to sort by",
+            "schema": {
+              "example": "id",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "description": "Sort order",
+            "schema": {
+              "example": "desc",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Operation successful.",
+                    "error": 0,
+                    "data": [
+                      {
+                        "id": 1,
+                        "name": "กรุงเทพ"
+                      },
+                      {
+                        "id": 2,
+                        "name": "ยโสธร"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": [
+                      "Invalid input"
+                    ],
+                    "error": "Bad Request",
+                    "statusCode": 400
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Resource not found",
+                    "error": "Not Found",
+                    "statusCode": 404
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Province"
+        ]
+      }
+    },
+    "/api/core/province/{id}": {
+      "get": {
+        "description": "เรียกดูจังหวัดตาม id",
+        "operationId": "ProvinceController_findOne",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Operation successful.",
+                    "error": 0,
+                    "data": {
+                      "name": "กรุงเทพ"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": [
+                      "Invalid input"
+                    ],
+                    "error": "Bad Request",
+                    "statusCode": 400
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Resource not found",
+                    "error": "Not Found",
+                    "statusCode": 404
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Province"
+        ]
+      },
+      "patch": {
+        "description": "แก้ไขข้อมูลจังหวัด",
+        "operationId": "ProvinceController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateProvinceDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Operation successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Operation successful.",
+                    "error": 0,
+                    "data": {
+                      "id": 1,
+                      "name": "ยโสธร2"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": [
+                      "Invalid input"
+                    ],
+                    "error": "Bad Request",
+                    "statusCode": 400
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "ต้องเข้าสู่ระบบก่อน",
+                    "error": "Unauthorized",
+                    "statusCode": 401
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "คุณไม่ได้รับอนุญาติให้กระทำสิ่งนี้",
+                    "error": "Forbidden",
+                    "statusCode": 401
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Resource not found",
+                    "error": "Not Found",
+                    "statusCode": 404
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Province"
+        ]
+      },
+      "delete": {
+        "description": "ลบจังหวัดตาม id",
+        "operationId": "ProvinceController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Operation successful.",
+                    "error": 0,
+                    "data": {
+                      "id": 1,
+                      "name": "กรุงเทพ"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": [
+                      "Invalid input"
+                    ],
+                    "error": "Bad Request",
+                    "statusCode": 400
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "ต้องเข้าสู่ระบบก่อน",
+                    "error": "Unauthorized",
+                    "statusCode": 401
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "คุณไม่ได้รับอนุญาติให้กระทำสิ่งนี้",
+                    "error": "Forbidden",
+                    "statusCode": 401
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Resource not found",
+                    "error": "Not Found",
+                    "statusCode": 404
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Province"
+        ]
+      }
+    },
+    "/api/core/province/delete-many": {
+      "post": {
+        "description": "ลบจังหวัดหลายแถวด้วย id แบบ array",
+        "operationId": "ProvinceController_removeMany",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteManyProvinceDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Operation successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Operation successful.",
+                    "error": 0,
+                    "data": {
+                      "count": 2
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": [
+                      "Invalid input"
+                    ],
+                    "error": "Bad Request",
+                    "statusCode": 400
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "ต้องเข้าสู่ระบบก่อน",
+                    "error": "Unauthorized",
+                    "statusCode": 401
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "คุณไม่ได้รับอนุญาติให้กระทำสิ่งนี้",
+                    "error": "Forbidden",
+                    "statusCode": 401
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Resource not found",
+                    "error": "Not Found",
+                    "statusCode": 404
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Province"
+        ]
+      }
+    },
+    "/api/core/amphure": {
+      "post": {
+        "description": "เพิ่มข้อมูลอำเภอ",
+        "operationId": "AmphureController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateAmphureDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Operation successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Operation successful.",
+                    "error": 0,
+                    "data": {
+                      "id": 1,
+                      "name": "ยโสธร"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": [
+                      "Invalid input"
+                    ],
+                    "error": "Bad Request",
+                    "statusCode": 400
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "ต้องเข้าสู่ระบบก่อน",
+                    "error": "Unauthorized",
+                    "statusCode": 401
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "คุณไม่ได้รับอนุญาติให้กระทำสิ่งนี้",
+                    "error": "Forbidden",
+                    "statusCode": 401
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Resource not found",
+                    "error": "Not Found",
+                    "statusCode": 404
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Amphure"
+        ]
+      },
+      "get": {
+        "description": "เรียกดูอำเภอทั้งหมด",
+        "operationId": "AmphureController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Operation successful.",
+                    "error": 0,
+                    "data": [
+                      {
+                        "id": 1,
+                        "name": "กรุงเทพ"
+                      },
+                      {
+                        "id": 2,
+                        "name": "ยโสธร"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": [
+                      "Invalid input"
+                    ],
+                    "error": "Bad Request",
+                    "statusCode": 400
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Resource not found",
+                    "error": "Not Found",
+                    "statusCode": 404
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Amphure"
+        ]
+      }
+    },
+    "/api/core/amphure/search": {
+      "get": {
+        "description": "เรียกดูอำเภอตามเงื่อนไข",
+        "operationId": "AmphureController_findByCondition",
+        "parameters": [
+          {
+            "name": "textSearch",
+            "required": false,
+            "in": "query",
+            "description": "Search text (comma-separated for multiple values)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "searchField",
+            "required": false,
+            "in": "query",
+            "description": "Fields to search in (comma-separated for multiple fields)",
+            "schema": {
+              "example": "id,name",
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "example": "1",
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageSize",
+            "required": false,
+            "in": "query",
+            "description": "Number of items per page",
+            "schema": {
+              "example": "10",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortField",
+            "required": false,
+            "in": "query",
+            "description": "Field to sort by",
+            "schema": {
+              "example": "id",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "description": "Sort order",
+            "schema": {
+              "example": "desc",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "province_id",
+            "required": false,
+            "in": "query",
+            "description": "ค้นหาตาม id จังหวัด (province_id)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Operation successful.",
+                    "error": 0,
+                    "data": [
+                      {
+                        "id": 1,
+                        "name": "กรุงเทพ"
+                      },
+                      {
+                        "id": 2,
+                        "name": "ยโสธร"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": [
+                      "Invalid input"
+                    ],
+                    "error": "Bad Request",
+                    "statusCode": 400
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Resource not found",
+                    "error": "Not Found",
+                    "statusCode": 404
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Amphure"
+        ]
+      }
+    },
+    "/api/core/amphure/{id}": {
+      "get": {
+        "description": "เรียกดูอำเภอตาม id",
+        "operationId": "AmphureController_findOne",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Operation successful.",
+                    "error": 0,
+                    "data": {
+                      "name": "กรุงเทพ"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": [
+                      "Invalid input"
+                    ],
+                    "error": "Bad Request",
+                    "statusCode": 400
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Resource not found",
+                    "error": "Not Found",
+                    "statusCode": 404
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Amphure"
+        ]
+      },
+      "patch": {
+        "description": "แก้ไขข้อมูลอำเภอ",
+        "operationId": "AmphureController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateAmphureDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Operation successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Operation successful.",
+                    "error": 0,
+                    "data": {
+                      "id": 1,
+                      "name": "ยโสธร2"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": [
+                      "Invalid input"
+                    ],
+                    "error": "Bad Request",
+                    "statusCode": 400
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "ต้องเข้าสู่ระบบก่อน",
+                    "error": "Unauthorized",
+                    "statusCode": 401
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "คุณไม่ได้รับอนุญาติให้กระทำสิ่งนี้",
+                    "error": "Forbidden",
+                    "statusCode": 401
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Resource not found",
+                    "error": "Not Found",
+                    "statusCode": 404
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Amphure"
+        ]
+      },
+      "delete": {
+        "description": "ลบอำเภอตาม id",
+        "operationId": "AmphureController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Operation successful.",
+                    "error": 0,
+                    "data": {
+                      "id": 1,
+                      "name": "กรุงเทพ"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": [
+                      "Invalid input"
+                    ],
+                    "error": "Bad Request",
+                    "statusCode": 400
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "ต้องเข้าสู่ระบบก่อน",
+                    "error": "Unauthorized",
+                    "statusCode": 401
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "คุณไม่ได้รับอนุญาติให้กระทำสิ่งนี้",
+                    "error": "Forbidden",
+                    "statusCode": 401
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Resource not found",
+                    "error": "Not Found",
+                    "statusCode": 404
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Amphure"
+        ]
+      }
+    },
+    "/api/core/amphure/delete-many": {
+      "post": {
+        "description": "ลบอำเภอหลายแถวด้วย id แบบ array",
+        "operationId": "AmphureController_removeMany",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteManyAmphureDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Operation successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Operation successful.",
+                    "error": 0,
+                    "data": [
+                      {
+                        "id": 1,
+                        "name": "กรุงเทพ"
+                      },
+                      {
+                        "id": 2,
+                        "name": "ยโสธร"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": [
+                      "Invalid input"
+                    ],
+                    "error": "Bad Request",
+                    "statusCode": 400
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "ต้องเข้าสู่ระบบก่อน",
+                    "error": "Unauthorized",
+                    "statusCode": 401
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "คุณไม่ได้รับอนุญาติให้กระทำสิ่งนี้",
+                    "error": "Forbidden",
+                    "statusCode": 401
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Resource not found",
+                    "error": "Not Found",
+                    "statusCode": 404
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "Amphure"
+        ]
+      }
+    },
+    "/api/core/district": {
+      "post": {
+        "description": "เพิ่มข้อมูลตำบล",
+        "operationId": "DistrictController_create",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateDistrictDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Operation successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Operation successful.",
+                    "error": 0,
+                    "data": {
+                      "id": 1,
+                      "name": "ยโสธร"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": [
+                      "Invalid input"
+                    ],
+                    "error": "Bad Request",
+                    "statusCode": 400
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "ต้องเข้าสู่ระบบก่อน",
+                    "error": "Unauthorized",
+                    "statusCode": 401
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "คุณไม่ได้รับอนุญาติให้กระทำสิ่งนี้",
+                    "error": "Forbidden",
+                    "statusCode": 401
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Resource not found",
+                    "error": "Not Found",
+                    "statusCode": 404
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "District"
+        ]
+      },
+      "get": {
+        "description": "เรียกดูตำบลทั้งหมด",
+        "operationId": "DistrictController_findAll",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Operation successful.",
+                    "error": 0,
+                    "data": [
+                      {
+                        "id": 1,
+                        "name": "กรุงเทพ"
+                      },
+                      {
+                        "id": 2,
+                        "name": "ยโสธร"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": [
+                      "Invalid input"
+                    ],
+                    "error": "Bad Request",
+                    "statusCode": 400
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Resource not found",
+                    "error": "Not Found",
+                    "statusCode": 404
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "District"
+        ]
+      }
+    },
+    "/api/core/district/search": {
+      "get": {
+        "description": "เรียกดูตำบลตามเงื่อนไข",
+        "operationId": "DistrictController_findByCondition",
+        "parameters": [
+          {
+            "name": "textSearch",
+            "required": false,
+            "in": "query",
+            "description": "Search text (comma-separated for multiple values)",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "searchField",
+            "required": false,
+            "in": "query",
+            "description": "Fields to search in (comma-separated for multiple fields)",
+            "schema": {
+              "example": "id,name",
+              "type": "string"
+            }
+          },
+          {
+            "name": "page",
+            "required": false,
+            "in": "query",
+            "description": "Page number",
+            "schema": {
+              "example": "1",
+              "type": "string"
+            }
+          },
+          {
+            "name": "pageSize",
+            "required": false,
+            "in": "query",
+            "description": "Number of items per page",
+            "schema": {
+              "example": "10",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortField",
+            "required": false,
+            "in": "query",
+            "description": "Field to sort by",
+            "schema": {
+              "example": "id",
+              "type": "string"
+            }
+          },
+          {
+            "name": "sortOrder",
+            "required": false,
+            "in": "query",
+            "description": "Sort order",
+            "schema": {
+              "example": "desc",
+              "enum": [
+                "asc",
+                "desc"
+              ],
+              "type": "string"
+            }
+          },
+          {
+            "name": "amphure_id",
+            "required": false,
+            "in": "query",
+            "description": "ค้นหาตาม id อำเภอ (amphure_id)",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Operation successful.",
+                    "error": 0,
+                    "data": [
+                      {
+                        "id": 1,
+                        "name": "กรุงเทพ"
+                      },
+                      {
+                        "id": 2,
+                        "name": "ยโสธร"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": [
+                      "Invalid input"
+                    ],
+                    "error": "Bad Request",
+                    "statusCode": 400
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Resource not found",
+                    "error": "Not Found",
+                    "statusCode": 404
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "District"
+        ]
+      }
+    },
+    "/api/core/district/{id}": {
+      "get": {
+        "description": "เรียกดูตำบลตาม id",
+        "operationId": "DistrictController_findOne",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": "Operation successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Operation successful.",
+                    "error": 0,
+                    "data": {
+                      "name": "กรุงเทพ"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": [
+                      "Invalid input"
+                    ],
+                    "error": "Bad Request",
+                    "statusCode": 400
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Resource not found",
+                    "error": "Not Found",
+                    "statusCode": 404
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "District"
+        ]
+      },
+      "patch": {
+        "description": "แก้ไขข้อมูลตำบล",
+        "operationId": "DistrictController_update",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateDistrictDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Operation successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Operation successful.",
+                    "error": 0,
+                    "data": {
+                      "id": 1,
+                      "name": "ยโสธร2"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": [
+                      "Invalid input"
+                    ],
+                    "error": "Bad Request",
+                    "statusCode": 400
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "ต้องเข้าสู่ระบบก่อน",
+                    "error": "Unauthorized",
+                    "statusCode": 401
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "คุณไม่ได้รับอนุญาติให้กระทำสิ่งนี้",
+                    "error": "Forbidden",
+                    "statusCode": 401
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Resource not found",
+                    "error": "Not Found",
+                    "statusCode": 404
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "District"
+        ]
+      },
+      "delete": {
+        "description": "ลบตำบลตาม id",
+        "operationId": "DistrictController_remove",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Operation successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Operation successful.",
+                    "error": 0,
+                    "data": {
+                      "id": 1,
+                      "name": "กรุงเทพ"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": [
+                      "Invalid input"
+                    ],
+                    "error": "Bad Request",
+                    "statusCode": 400
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "ต้องเข้าสู่ระบบก่อน",
+                    "error": "Unauthorized",
+                    "statusCode": 401
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "คุณไม่ได้รับอนุญาติให้กระทำสิ่งนี้",
+                    "error": "Forbidden",
+                    "statusCode": 401
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Resource not found",
+                    "error": "Not Found",
+                    "statusCode": 404
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "District"
+        ]
+      }
+    },
+    "/api/core/district/delete-many": {
+      "post": {
+        "description": "ลบตำบลหลายแถวด้วย id แบบ array",
+        "operationId": "DistrictController_removeMany",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeleteManyDistrictDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Operation successful.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Operation successful.",
+                    "error": 0,
+                    "data": [
+                      {
+                        "id": 1,
+                        "name": "กรุงเทพ"
+                      },
+                      {
+                        "id": 2,
+                        "name": "ยโสธร"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": [
+                      "Invalid input"
+                    ],
+                    "error": "Bad Request",
+                    "statusCode": 400
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "ต้องเข้าสู่ระบบก่อน",
+                    "error": "Unauthorized",
+                    "statusCode": 401
+                  }
+                }
+              }
+            }
+          },
+          "403": {
+            "description": "Forbidden",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "คุณไม่ได้รับอนุญาติให้กระทำสิ่งนี้",
+                    "error": "Forbidden",
+                    "statusCode": 401
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "example": {
+                    "message": "Resource not found",
+                    "error": "Not Found",
+                    "statusCode": 404
+                  }
+                }
+              }
+            }
+          }
+        },
+        "summary": "",
+        "tags": [
+          "District"
+        ]
+      }
+    }
+  },
+  "info": {
+    "title": "API v2",
+    "description": "API Documentation for version 2.0",
+    "version": "2.0",
+    "contact": {}
+  },
+  "tags": [],
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Local server"
+    },
+    {
+      "url": "https://nakdev.com",
+      "description": "Production server"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearer": {
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "type": "http"
+      }
+    },
+    "schemas": {
+      "CreateUserDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateUserDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "DeleteManyUserDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateStatusUserDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateManyUserDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "SignInDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "SignUpDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "ForgotPasswordDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "ResetPasswordDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "ChangePasswordFromOwnerDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "ChangePasswordFromOtherDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateAdminDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateAdminDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "DeleteManyAdminDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateStatusAdminDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateManyAdminDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateAccessoryDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateAccessoryDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateStatusAccessoryDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "DeleteManyAccessoryDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateManyAccessoryDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateDepartmentDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateDepartmentDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "DeleteManyDepartmentDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateStatusDepartmentDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateManyDepartmentDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateRoomDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateRoomDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "DeleteManyRoomDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateManyRoomDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateStatusRoomDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateBookingListDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateBookingListDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "DeleteManyBookingListDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateManyBookingListDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateStatusBookingListDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateTestDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "UpdateTestDto": {
+        "type": "object",
+        "properties": {}
+      },
+      "CreateProvinceDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "ชื่อจังหวัด"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      },
+      "ProvinceDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "รหัส"
+          },
+          "name": {
+            "type": "string",
+            "description": "ชื่อ"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "สร้างข้อมูลเมื่อ"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "แก้ไขล่าสุดเมื่อ"
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "created_at",
+          "updated_at"
+        ]
+      },
+      "UpdateProvinceDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "ชื่อจังหวัด"
+          },
+          "id": {
+            "type": "number",
+            "description": "รหัสจังหวัด",
+            "example": 2
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "DeleteManyProvinceDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "array",
+            "description": "รหัสจังหวัด",
+            "example": [
+              1,
+              2,
+              5,
+              8
+            ]
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "CreateAmphureDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "ชื่ออำเภอ"
+          },
+          "province_id": {
+            "type": "number",
+            "description": "รหัสจังหวัดจากตาราง province"
+          }
+        },
+        "required": [
+          "name",
+          "province_id"
+        ]
+      },
+      "AmphureDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "รหัสอำเภอ"
+          },
+          "province_id": {
+            "type": "number",
+            "description": "รหัสของตาราง province (จังหวัด)"
+          },
+          "name": {
+            "type": "string",
+            "description": "ชื่ออำเภอ"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "สร้างข้อมูลเมื่อ"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "แก้ไขล่าสุดเมื่อ"
+          }
+        },
+        "required": [
+          "id",
+          "province_id",
+          "name",
+          "created_at",
+          "updated_at"
+        ]
+      },
+      "UpdateAmphureDto": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "ชื่ออำเภอ"
+          },
+          "province_id": {
+            "type": "number",
+            "description": "รหัสจังหวัดจากตาราง province"
+          },
+          "id": {
+            "type": "number",
+            "description": "รหัสอำเภอ",
+            "example": 2
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "DeleteManyAmphureDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "array",
+            "description": "รหัสอำเภอ",
+            "example": [
+              1,
+              2,
+              5,
+              8
+            ]
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "CreateDistrictDto": {
+        "type": "object",
+        "properties": {
+          "amphure_id": {
+            "type": "number",
+            "description": "รหัสอำเภอจากตาราง amphure"
+          },
+          "name": {
+            "type": "string",
+            "description": "ชื่อตำบล"
+          },
+          "zip_code": {
+            "type": "string",
+            "description": "รหัสไปรษณีย์"
+          }
+        },
+        "required": [
+          "amphure_id",
+          "name",
+          "zip_code"
+        ]
+      },
+      "DistrictDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "รหัสตำบล"
+          },
+          "amphure_id": {
+            "type": "number",
+            "description": "รหัสอำเภอจากตาราง amphure"
+          },
+          "name": {
+            "type": "string",
+            "description": "ชื่อตำบล"
+          },
+          "zip_code": {
+            "type": "string",
+            "description": "รหัสไปรษณีย์"
+          },
+          "created_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "สร้างข้อมูลเมื่อ"
+          },
+          "updated_at": {
+            "format": "date-time",
+            "type": "string",
+            "description": "แก้ไขล่าสุดเมื่อ"
+          }
+        },
+        "required": [
+          "id",
+          "amphure_id",
+          "name",
+          "zip_code",
+          "created_at",
+          "updated_at"
+        ]
+      },
+      "UpdateDistrictDto": {
+        "type": "object",
+        "properties": {
+          "amphure_id": {
+            "type": "number",
+            "description": "รหัสอำเภอจากตาราง amphure"
+          },
+          "name": {
+            "type": "string",
+            "description": "ชื่อตำบล"
+          },
+          "zip_code": {
+            "type": "string",
+            "description": "รหัสไปรษณีย์"
+          },
+          "id": {
+            "type": "number",
+            "description": "รหัสตำบล",
+            "example": 2
+          }
+        },
+        "required": [
+          "id"
+        ]
+      },
+      "DeleteManyDistrictDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "array",
+            "description": "รหัสตำบล",
+            "example": [
+              1,
+              2,
+              5,
+              8
+            ]
+          }
+        },
+        "required": [
+          "id"
+        ]
+      }
+    }
+  }
+}

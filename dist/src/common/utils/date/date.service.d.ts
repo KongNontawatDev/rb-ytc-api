@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
 export declare class DateService {
+    Date(date: dayjs.ConfigType): dayjs.Dayjs;
     formatDate(date: Date | string | number, format?: string): string;
     toDateSql(date: Date | string | number): Date;
     toUTC(date: Date | string | number): Date;

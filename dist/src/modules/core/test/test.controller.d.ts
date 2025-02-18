@@ -5,11 +5,7 @@ export declare class TestController {
     private readonly testService;
     constructor(testService: TestService);
     create(createTestDto: CreateTestDto): string;
-    findAll(): {
-        data: string;
-        error: number;
-        message: string;
-    };
+    findAll(): string;
     findOne(id: string): string;
     update(id: string, updateTestDto: UpdateTestDto): string;
     remove(id: string): string;

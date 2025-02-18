@@ -11,6 +11,13 @@ dayjs.extend(customParseFormat);
 @Injectable()
 export class DateService {
   /**
+   * dayjs Instant
+   * @param date 
+   */
+  Date(date: dayjs.ConfigType):dayjs.Dayjs {
+    return dayjs(date)
+  }
+  /**
    * Format date to specified format
    * @param date Date to format
    * @param format Format string (default: 'YYYY-MM-DD HH:mm:ss')

@@ -5,8 +5,9 @@ import { HealthModule } from './health/health.module';
 import { ProvinceModule } from './location/province/province.module';
 import { AmphureModule } from './location/amphure/amphure.module';
 import { DistrictModule } from './location/district/district.module';
+import { PrismaModule } from '../../provider/prisma/prisma.module';
 
 @Module({
-  imports:[SwaggerModule, TestModule,HealthModule, ProvinceModule,AmphureModule, DistrictModule]
+  imports:[PrismaModule,SwaggerModule, TestModule,HealthModule, ProvinceModule,AmphureModule, DistrictModule]
 })
 export class CoreModule {}

@@ -1,11 +1,8 @@
-import { BaseDto } from 'src/common/dto/base.dto';
 import {
-  IsInteger,
   IsOptionalField,
-  IsPhoneNumberField,
   IsRequiredField,
   IsValidString,
-} from 'src/common/validation/validation.decorator';
+} from '@common/validation/validation.decorator';
 
 export class CreateAccessoryDto {
   @IsValidString()
@@ -14,8 +11,8 @@ export class CreateAccessoryDto {
 
   @IsValidString()
   @IsOptionalField()
-  detail: string;
+  detail?: string;
 
   @IsOptionalField()
-  image: Express.Multer.File|string;
+  image?: Express.Multer.File|string;
 }

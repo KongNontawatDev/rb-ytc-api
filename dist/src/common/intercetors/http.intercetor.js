@@ -40,21 +40,35 @@ let HttpInterceptor = class HttpInterceptor {
             next: (response) => {
                 const endHrTime = process.hrtime(startHrTime);
                 const durationInMs = Math.round(endHrTime[0] * 1000 + endHrTime[1] / 1000000);
-                if (response?.message) {
-                    this.logger.http(response?.message || 'http', {
-                        requestId,
-                        method: request.method,
-                        url: request.url,
-                        requestBody: request.body,
-                        requestHeaders: request.headers,
-                        responseBody: response,
-                        statusCode: context.switchToHttp().getResponse().statusCode,
-                        duration: `${durationInMs}ms`,
-                        status: 'success',
-                        actor,
-                        actorId: sub,
-                    });
+                const responseBody = {};
+                if (response?.data) {
+                    if (Array.isArray(response.data)) {
+                        responseBody.data = response.data.map((item) => item.id);
+                    }
+                    else if (typeof response.data === 'object' && response.data.id) {
+                        responseBody.data = { id: response.data.id };
+                    }
                 }
+                if (response?.error !== undefined)
+                    responseBody.error = response.error;
+                if (response?.message)
+                    responseBody.message = response.message;
+                if (response?.meta)
+                    responseBody.meta = response.meta;
+                this.logger.http(response?.message || 'http', {
+                    requestId,
+                    method: request.method,
+                    url: request.url,
+                    requestBody: request.body,
+                    requestHeaders: request.headers,
+                    responseBody,
+                    statusCode: context.switchToHttp().getResponse().statusCode,
+                    duration: `${durationInMs}ms`,
+                    status: 'success',
+                    tableName: request?.body?.context,
+                    actor,
+                    actorId: sub,
+                });
             },
             error: (error) => {
                 const endHrTime = process.hrtime(startHrTime);

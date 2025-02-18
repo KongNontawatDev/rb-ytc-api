@@ -201,12 +201,12 @@ let AccessoryService = class AccessoryService {
             (0, prisma_error_handler_1.handlePrismaError)(error);
         }
     }
-    async updateStatusMany(ids, status) {
+    async updateStatusMany(id, status) {
         try {
             return await this.db.accessory.updateMany({
                 where: {
                     id: {
-                        in: ids,
+                        in: id,
                     },
                 },
                 data: {

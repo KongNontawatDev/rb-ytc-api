@@ -14,12 +14,13 @@ const health_module_1 = require("./health/health.module");
 const province_module_1 = require("./location/province/province.module");
 const amphure_module_1 = require("./location/amphure/amphure.module");
 const district_module_1 = require("./location/district/district.module");
+const prisma_module_1 = require("../../provider/prisma/prisma.module");
 let CoreModule = class CoreModule {
 };
 exports.CoreModule = CoreModule;
 exports.CoreModule = CoreModule = __decorate([
     (0, common_1.Module)({
-        imports: [swagger_module_1.SwaggerModule, test_module_1.TestModule, health_module_1.HealthModule, province_module_1.ProvinceModule, amphure_module_1.AmphureModule, district_module_1.DistrictModule]
+        imports: [prisma_module_1.PrismaModule, swagger_module_1.SwaggerModule, test_module_1.TestModule, health_module_1.HealthModule, province_module_1.ProvinceModule, amphure_module_1.AmphureModule, district_module_1.DistrictModule]
     })
 ], CoreModule);
 //# sourceMappingURL=core.module.js.map

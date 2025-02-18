@@ -19,6 +19,9 @@ dayjs_1.default.extend(utc_1.default);
 dayjs_1.default.extend(timezone_1.default);
 dayjs_1.default.extend(customParseFormat_1.default);
 let DateService = class DateService {
+    Date(date) {
+        return (0, dayjs_1.default)(date);
+    }
     formatDate(date, format = 'DD-MM-YYYY HH:mm:ss') {
         return (0, dayjs_1.default)(date).tz('Asia/Bangkok').format(format);
     }

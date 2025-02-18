@@ -3,10 +3,7 @@ import { TestService } from './test.service';
 import { CreateTestDto } from './dto/create-test.dto';
 import { UpdateTestDto } from './dto/update-test.dto';
 
-@Controller({
-  path:'core/test',
-  version:'1'
-})
+@Controller('test')
 export class TestController {
   constructor(private readonly testService: TestService) {}
 
@@ -17,12 +14,7 @@ export class TestController {
 
   @Get()
   findAll() {
-    const data = this.testService.findAll();
-    return {
-      data,
-      error:0,
-      message:'ทดสอบ'
-    }
+    return this.testService.findAll();
   }
 
   @Get(':id')

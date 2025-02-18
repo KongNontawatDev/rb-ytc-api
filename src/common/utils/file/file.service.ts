@@ -1,9 +1,6 @@
-import { BadRequestException, Injectable, Logger } from '@nestjs/common';
+import {  Injectable, Logger } from '@nestjs/common';
 import { unlink } from 'fs/promises';
-import { promises as fs } from 'fs';
-import type { MakeDirectoryOptions } from 'fs';
 import sharp from 'sharp';
-import path from 'path';
 
 @Injectable()
 export class FileService {

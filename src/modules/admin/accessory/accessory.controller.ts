@@ -15,7 +15,7 @@ import {
 } from '@nestjs/common';
 
 import { FileInterceptor } from '@nestjs/platform-express';
-import { FileService } from 'src/common/utils/file/file.service';
+import { FileService } from '@common/utils/file/file.service';
 import { fileUploadOptions } from '@common/utils/file/file.config';
 import { JwtAuthGuard } from '@provider/jwt/guards/jwt-auth.guard';
 import { CreateAccessoryDto } from '@modules/core/accessory/dto/create-accessory.dto';

@@ -1,4 +1,4 @@
-import { FileService } from 'src/common/utils/file/file.service';
+import { FileService } from '@common/utils/file/file.service';
 import { CreateAccessoryDto } from '@modules/core/accessory/dto/create-accessory.dto';
 import { AccessoryService } from '@modules/core/accessory/accessory.service';
 import { DeleteManyAccessoryDto, FindAccessorysByConditionQueryDto, FindOneAccessoryParamDto, UpdateManyAccessoryDto } from '@modules/core/accessory/dto/params-accessory.dto';
@@ -116,11 +116,15 @@ export declare class AccessoryController {
     removeMany(body: DeleteManyAccessoryDto): Promise<{
         message: string;
         error: number;
-        data: import(".prisma/client").Prisma.BatchPayload | undefined;
+        data: {
+            count: number;
+        } | undefined;
     }>;
     updateStatusMany(body: UpdateManyAccessoryDto): Promise<{
         message: string;
         error: number;
-        data: import(".prisma/client").Prisma.BatchPayload | undefined;
+        data: {
+            count: number;
+        } | undefined;
     }>;
 }

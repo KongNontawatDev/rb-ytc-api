@@ -9,27 +9,27 @@ export declare class BookingListService {
     private date;
     constructor(db: PrismaService, date: DateService);
     create(data: CreateBookingListDto): Promise<({
-        room: {
-            name: string;
-        };
         user: {
             line_id: string;
         };
+        room: {
+            name: string;
+        };
     } & {
         id: number;
+        created_at: Date;
+        updated_at: Date;
+        status: number;
+        tel: string;
         department_id: number;
+        title: string;
         user_id: number;
         room_id: number;
         booking_number: string;
-        tel: string;
         user_name: string;
-        title: string;
         detail: string | null;
         book_start: Date;
         book_end: Date;
-        status: number;
-        created_at: Date;
-        updated_at: Date;
     }) | undefined>;
     findByCondition(query: FindBookingListsByConditionQueryDto): Promise<{
         data: ({
@@ -44,121 +44,121 @@ export declare class BookingListService {
             };
         } & {
             id: number;
+            created_at: Date;
+            updated_at: Date;
+            status: number;
+            tel: string;
             department_id: number;
+            title: string;
             user_id: number;
             room_id: number;
             booking_number: string;
-            tel: string;
             user_name: string;
-            title: string;
             detail: string | null;
             book_start: Date;
             book_end: Date;
-            status: number;
-            created_at: Date;
-            updated_at: Date;
         })[];
         pageCount: number;
         total: number;
     }>;
     findAll(): Promise<{
         id: number;
+        created_at: Date;
+        updated_at: Date;
+        status: number;
+        tel: string;
         department_id: number;
+        title: string;
         user_id: number;
         room_id: number;
         booking_number: string;
-        tel: string;
         user_name: string;
-        title: string;
         detail: string | null;
         book_start: Date;
         book_end: Date;
-        status: number;
-        created_at: Date;
-        updated_at: Date;
     }[] | undefined>;
     findCount(): Promise<number | undefined>;
     findOne(id: number): Promise<({
         department: {
             id: number;
-            status: number;
+            name: string;
             created_at: Date;
             updated_at: Date;
-            name: string;
+            status: number;
         };
         room: {
             room_image: {
                 id: number;
-                room_id: number;
                 image: string;
+                room_id: number;
             }[];
         } & {
             id: number;
-            detail: string | null;
-            status: number;
+            name: string;
             created_at: Date;
             updated_at: Date;
-            name: string;
-            location: string;
+            status: number;
             size: string;
+            detail: string | null;
+            location: string;
             capacity: string;
         };
     } & {
         id: number;
+        created_at: Date;
+        updated_at: Date;
+        status: number;
+        tel: string;
         department_id: number;
+        title: string;
         user_id: number;
         room_id: number;
         booking_number: string;
-        tel: string;
         user_name: string;
-        title: string;
         detail: string | null;
         book_start: Date;
         book_end: Date;
-        status: number;
-        created_at: Date;
-        updated_at: Date;
     }) | null | undefined>;
     findManyByUser(user_id: number): Promise<({
         department: {
             id: number;
-            status: number;
+            name: string;
             created_at: Date;
             updated_at: Date;
-            name: string;
+            status: number;
         };
         room: {
             room_image: {
                 id: number;
-                room_id: number;
                 image: string;
+                room_id: number;
             }[];
         } & {
             id: number;
-            detail: string | null;
-            status: number;
+            name: string;
             created_at: Date;
             updated_at: Date;
-            name: string;
-            location: string;
+            status: number;
             size: string;
+            detail: string | null;
+            location: string;
             capacity: string;
         };
     } & {
         id: number;
+        created_at: Date;
+        updated_at: Date;
+        status: number;
+        tel: string;
         department_id: number;
+        title: string;
         user_id: number;
         room_id: number;
         booking_number: string;
-        tel: string;
         user_name: string;
-        title: string;
         detail: string | null;
         book_start: Date;
         book_end: Date;
-        status: number;
-        created_at: Date;
-        updated_at: Date;
     })[] | undefined>;
     findAllCurrentMonth(): Promise<({
         room: {
@@ -166,91 +166,91 @@ export declare class BookingListService {
         };
     } & {
         id: number;
+        created_at: Date;
+        updated_at: Date;
+        status: number;
+        tel: string;
         department_id: number;
+        title: string;
         user_id: number;
         room_id: number;
         booking_number: string;
-        tel: string;
         user_name: string;
-        title: string;
         detail: string | null;
         book_start: Date;
         book_end: Date;
-        status: number;
-        created_at: Date;
-        updated_at: Date;
     })[] | undefined>;
     findManyByRoomForCalendarAndTimeline(room_id: number): Promise<{
         id: number;
+        title: string;
         booking_number: string;
         user_name: string;
-        title: string;
         book_start: Date;
         book_end: Date;
     }[] | undefined>;
     findManyByUserForCalendarAndTimeline(user_id: number): Promise<{
         id: number;
+        title: string;
         booking_number: string;
         user_name: string;
-        title: string;
         book_start: Date;
         book_end: Date;
     }[] | undefined>;
     update(id: number, data: UpdateBookingListDto): Promise<{
         id: number;
+        created_at: Date;
+        updated_at: Date;
+        status: number;
+        tel: string;
         department_id: number;
+        title: string;
         user_id: number;
         room_id: number;
         booking_number: string;
-        tel: string;
         user_name: string;
-        title: string;
         detail: string | null;
         book_start: Date;
         book_end: Date;
-        status: number;
-        created_at: Date;
-        updated_at: Date;
     } | undefined>;
     updateStatusMany(ids: number[], status: number): Promise<Prisma.BatchPayload | undefined>;
     updateStatusOne(id: number, data: UpdateStatusBookingListDto): Promise<({
-        room: {
-            name: string;
-        };
         user: {
             line_id: string;
         };
+        room: {
+            name: string;
+        };
     } & {
         id: number;
+        created_at: Date;
+        updated_at: Date;
+        status: number;
+        tel: string;
         department_id: number;
+        title: string;
         user_id: number;
         room_id: number;
         booking_number: string;
-        tel: string;
         user_name: string;
-        title: string;
         detail: string | null;
         book_start: Date;
         book_end: Date;
-        status: number;
-        created_at: Date;
-        updated_at: Date;
     }) | undefined>;
     remove(id: number): Promise<{
         id: number;
+        created_at: Date;
+        updated_at: Date;
+        status: number;
+        tel: string;
         department_id: number;
+        title: string;
         user_id: number;
         room_id: number;
         booking_number: string;
-        tel: string;
         user_name: string;
-        title: string;
         detail: string | null;
         book_start: Date;
         book_end: Date;
-        status: number;
-        created_at: Date;
-        updated_at: Date;
     } | undefined>;
     removeMany(id: number[]): Promise<Prisma.BatchPayload | undefined>;
     findRoomBookedDates(room_id: number): Promise<Date[]>;

@@ -1,9 +1,8 @@
 import { CreateAccessoryDto } from './dto/create-accessory.dto';
 import { UpdateAccessoryDto, UpdateStatusAccessoryDto } from './dto/update-accessory.dto';
-import { Prisma } from '@prisma/client';
 import { FindAccessorysByConditionQueryDto } from './dto/params-accessory.dto';
 import { FileService } from '@common/utils/file/file.service';
-import { PrismaService } from 'src/provider/prisma/prisma.service';
+import { PrismaService } from '@provider/prisma/prisma.service';
 import { CompressionService } from '@common/utils/compression/compression.service';
 export declare class AccessoryService {
     private db;
@@ -73,7 +72,9 @@ export declare class AccessoryService {
         image: string;
         detail: string | null;
     } | undefined>;
-    updateStatusMany(ids: number[], status: number): Promise<Prisma.BatchPayload | undefined>;
+    updateStatusMany(id: number[], status: number): Promise<{
+        count: number;
+    } | undefined>;
     remove(id: number): Promise<{
         id: number;
         name: string;
@@ -83,5 +84,7 @@ export declare class AccessoryService {
         image: string;
         detail: string | null;
     } | undefined>;
-    removeMany(id: number[]): Promise<Prisma.BatchPayload | undefined>;
+    removeMany(id: number[]): Promise<{
+        count: number;
+    } | undefined>;
 }
