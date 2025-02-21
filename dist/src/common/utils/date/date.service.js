@@ -20,10 +20,10 @@ dayjs_1.default.extend(timezone_1.default);
 dayjs_1.default.extend(customParseFormat_1.default);
 let DateService = class DateService {
     Date(date) {
-        return (0, dayjs_1.default)(date);
+        return (0, dayjs_1.default)(date).utc();
     }
-    formatDate(date, format = 'DD-MM-YYYY HH:mm:ss') {
-        return (0, dayjs_1.default)(date).tz('Asia/Bangkok').format(format);
+    formatDate(date, format = "YYYY-MM-DD HH:mm:ss") {
+        return (0, dayjs_1.default)(date).utc().format(format);
     }
     toDateSql(date) {
         return (0, dayjs_1.default)(date).utc().toDate();
@@ -31,26 +31,50 @@ let DateService = class DateService {
     toUTC(date) {
         return (0, dayjs_1.default)(date).utc().toDate();
     }
-    toTimezone(date, tz = 'UTC') {
+    toTimezone(date, tz = "Asia/Bangkok") {
         return (0, dayjs_1.default)(date).tz(tz).toDate();
     }
-    parseDate(dateStr, format) {
-        return (0, dayjs_1.default)(dateStr, format).toDate();
+    parseDate(dateStr, format = "YYYY-MM-DD HH:mm:ss") {
+        return (0, dayjs_1.default)(dateStr, format).utc().toDate();
     }
     addTime(date, amount, unit) {
-        return (0, dayjs_1.default)(date).add(amount, unit).toDate();
+        return (0, dayjs_1.default)(date).utc().add(amount, unit).toDate();
     }
     subtractTime(date, amount, unit) {
-        return (0, dayjs_1.default)(date).subtract(amount, unit).toDate();
+        return (0, dayjs_1.default)(date).utc().subtract(amount, unit).toDate();
     }
     isValidDate(date) {
         return (0, dayjs_1.default)(date).isValid();
     }
-    startOf(date, unit) {
-        return (0, dayjs_1.default)(date).startOf(unit).toDate();
+    startOf(unit, date = new Date()) {
+        return (0, dayjs_1.default)(date).utc().startOf(unit).toDate();
     }
-    endOf(date, unit) {
-        return (0, dayjs_1.default)(date).endOf(unit).toDate();
+    endOf(unit, date = new Date()) {
+        return (0, dayjs_1.default)(date).utc().endOf(unit).toDate();
+    }
+    getCurrentMonthRange() {
+        return {
+            start: this.startOf("month"),
+            end: this.endOf("month"),
+        };
+    }
+    getMonthRange(year, month) {
+        return {
+            start: (0, dayjs_1.default)().utc().year(year).month(month - 1).startOf("month").toDate(),
+            end: (0, dayjs_1.default)().utc().year(year).month(month - 1).endOf("month").toDate(),
+        };
+    }
+    removeSeconds(date) {
+        return (0, dayjs_1.default)(date).utc().startOf("minute").toDate();
+    }
+    isBefore(date1, date2) {
+        return (0, dayjs_1.default)(date1).utc().isBefore((0, dayjs_1.default)(date2).utc());
+    }
+    isAfter(date1, date2) {
+        return (0, dayjs_1.default)(date1).utc().isAfter((0, dayjs_1.default)(date2).utc());
+    }
+    getUTCNow() {
+        return (0, dayjs_1.default)().utc().toDate();
     }
 };
 exports.DateService = DateService;

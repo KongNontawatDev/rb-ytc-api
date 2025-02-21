@@ -15,12 +15,12 @@ export class FindBookingListsByConditionQueryDto extends BaseQueryDto {
   @IsValidString()
   status?: string;
 
+  // @IsDateField()
   @IsOptionalField()
-  @IsDateField()
   book_start?: Date;
 
+  // @IsDateField()
   @IsOptionalField()
-  @IsDateField()
   book_end?: Date;
 
   @IsOptionalField()

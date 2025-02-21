@@ -8,9 +8,6 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BookingListService = void 0;
 const common_1 = require("@nestjs/common");
@@ -18,43 +15,45 @@ const prisma_service_1 = require("../../../provider/prisma/prisma.service");
 const uuid_1 = require("uuid");
 const prisma_error_handler_1 = require("../../../common/exceptions/prisma-error.handler");
 const date_service_1 = require("../../../common/utils/date/date.service");
-const dayjs_1 = __importDefault(require("dayjs"));
 let BookingListService = class BookingListService {
     constructor(db, date) {
         this.db = db;
         this.date = date;
     }
     async create(data) {
-        const bookStart = (0, dayjs_1.default)(data.book_start).second(0);
-        const bookEnd = (0, dayjs_1.default)(data.book_end).second(0);
+        const bookStart = this.date.removeSeconds(data.book_start);
+        const bookEnd = this.date.removeSeconds(data.book_end);
         const existingBookings = await this.db.booking_list.findMany({
             where: {
                 room_id: data.room_id,
                 status: 1,
                 OR: [
                     {
-                        book_start: { lte: bookEnd.utc().toDate() },
-                        book_end: { gte: bookStart.utc().toDate() },
+                        book_start: { lte: bookEnd },
+                        book_end: { gte: bookStart },
                     },
                     {
-                        book_start: { gte: bookStart.utc().toDate(), lte: bookEnd.utc().toDate() },
+                        book_start: {
+                            gte: bookStart,
+                            lte: bookEnd,
+                        },
                     },
                     {
-                        book_start: { lte: bookStart.utc().toDate() },
-                        book_end: { gte: bookEnd.utc().toDate() },
+                        book_start: { lte: bookStart },
+                        book_end: { gte: bookEnd },
                     },
                 ],
             },
         });
         if (existingBookings.length > 0) {
-            throw new common_1.ConflictException(`มีการจองห้องในช่วงเวลา ${bookStart.format('YYYY-MM-DD HH:mm:ss')} - ${bookEnd.format('YYYY-MM-DD HH:mm:ss')} แล้ว`);
+            throw new common_1.ConflictException(`มีการจองห้องในช่วงเวลา ${this.date.formatDate(bookStart, 'YYYY-MM-DD HH:mm:ss')} - ${this.date.formatDate(bookEnd, 'YYYY-MM-DD HH:mm:ss')} แล้ว`);
         }
         try {
             return await this.db.booking_list.create({
                 data: {
                     ...data,
-                    book_start: bookStart.utc().toDate(),
-                    book_end: bookEnd.utc().toDate(),
+                    book_start: bookStart,
+                    book_end: bookEnd,
                     status: 1,
                     booking_number: this.generateBookingNumber(),
                 },
@@ -101,15 +100,17 @@ let BookingListService = class BookingListService {
                     });
                 }
             }
+            let statusCondition = {};
             if (status) {
                 const statusValues = status
                     .split(',')
                     .map((value) => Number(value.trim()));
-                andConditions.push({
+                statusCondition = {
                     OR: statusValues.map((statusValue) => ({
                         status: statusValue,
                     })),
-                });
+                };
+                andConditions.push(statusCondition);
             }
             if (user_id) {
                 const userIdValues = user_id
@@ -133,29 +134,29 @@ let BookingListService = class BookingListService {
             }
             if (book_start || book_end) {
                 const dateRangeCondition = {};
-                if (book_start && book_end) {
-                    dateRangeCondition.book_start = {
-                        gte: this.date.toDateSql(book_start),
-                        lte: this.date.toDateSql(book_end),
-                    };
-                }
-                else if (book_start) {
-                    dateRangeCondition.book_start = {
-                        gte: this.date.toDateSql(book_start),
-                    };
-                }
-                else if (book_end) {
-                    dateRangeCondition.book_start = {
-                        lte: this.date.toDateSql(book_end),
-                    };
-                }
+                const startDate = book_start
+                    ? this.date.startOf('day', book_start)
+                    : this.date.startOf('day');
+                const endDate = book_end
+                    ? this.date.endOf('day', book_end)
+                    : this.date.endOf('day');
+                dateRangeCondition.book_start = {
+                    gte: startDate,
+                    lte: endDate,
+                };
                 andConditions.push(dateRangeCondition);
             }
             if (andConditions.length > 0) {
                 where['AND'] = andConditions;
             }
             const skip = (Number(page) - 1) * Number(pageSize);
-            const [data, pageCount, total] = await Promise.all([
+            const baseWhereConditions = andConditions.filter(condition => condition !== statusCondition);
+            const baseWhere = {};
+            if (baseWhereConditions.length > 0) {
+                baseWhere['AND'] = baseWhereConditions;
+            }
+            const allStatuses = [1, 2, 3];
+            const [data, pageCount, total, ...statusCounts] = await Promise.all([
                 this.db.booking_list.findMany({
                     where,
                     include: {
@@ -183,11 +184,22 @@ let BookingListService = class BookingListService {
                 }),
                 this.db.booking_list.count({ where }),
                 this.db.booking_list.count(),
+                ...allStatuses.map(statusValue => this.db.booking_list.count({
+                    where: {
+                        ...baseWhere,
+                        status: statusValue
+                    }
+                }))
             ]);
+            const statusCountsObj = allStatuses.reduce((acc, status, index) => {
+                acc[`status_${status}`] = statusCounts[index];
+                return acc;
+            }, {});
             return {
                 data,
                 pageCount,
                 total,
+                statusCounts: statusCountsObj
             };
         }
         catch (error) {
@@ -196,6 +208,7 @@ let BookingListService = class BookingListService {
                 data: [],
                 pageCount: 0,
                 total: 0,
+                statusCounts: {}
             };
         }
     }
@@ -253,15 +266,14 @@ let BookingListService = class BookingListService {
     }
     async findAllCurrentMonth() {
         try {
-            const startOfMonth = (0, dayjs_1.default)().startOf('month').toDate();
-            const endOfMonth = (0, dayjs_1.default)().endOf('month').toDate();
+            const { start, end } = this.date.getCurrentMonthRange();
             return await this.db.booking_list.findMany({
                 where: {
                     book_start: {
-                        gte: startOfMonth,
+                        gte: start,
                     },
                     book_end: {
-                        lte: endOfMonth,
+                        lte: end,
                     },
                 },
                 include: {
@@ -403,8 +415,8 @@ let BookingListService = class BookingListService {
         });
         const bookedDates = bookings.flatMap((booking) => {
             const dates = [];
-            let currentDate = (0, dayjs_1.default)(booking.book_start);
-            const endDate = (0, dayjs_1.default)(booking.book_end);
+            let currentDate = this.date.Date(booking.book_start);
+            const endDate = this.date.Date(booking.book_end);
             while (!currentDate.isAfter(endDate, 'day')) {
                 dates.push(currentDate.toDate());
                 currentDate = currentDate.add(1, 'day');

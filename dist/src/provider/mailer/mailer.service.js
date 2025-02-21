@@ -46,28 +46,42 @@ exports.MailerService = void 0;
 const common_1 = require("@nestjs/common");
 const config_1 = require("@nestjs/config");
 const nodemailer = __importStar(require("nodemailer"));
+const password_reset_email_template_js_1 = require("./templates/password-reset-email-template.js");
+const login_email_template_js_1 = require("./templates/login-email-template.js");
 let MailerService = class MailerService {
     constructor(configService) {
         this.configService = configService;
         this.transporter = nodemailer.createTransport({
             host: this.configService.get('mail.host'),
             port: this.configService.get('mail.port'),
+            secure: true,
             auth: {
                 user: this.configService.get('mail.user'),
                 pass: this.configService.get('mail.password'),
             },
+            tls: {
+                rejectUnauthorized: false,
+            },
         });
     }
     async sendPasswordResetEmail(email, token) {
-        const resetUrl = `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
+        const resetUrl = `${process.env.FRONTEND_URL}/auth/reset-password?token=${token}`;
+        const emailTemplate = (0, password_reset_email_template_js_1.getPasswordResetEmailTemplate)(resetUrl);
         await this.transporter.sendMail({
+            from: `"No Reply" <${process.env.MAIL_USER}>`,
             to: email,
             subject: 'Password Reset Request',
-            html: `
-        <p>You requested a password reset.</p>
-        <p>Click <a href="${resetUrl}">here</a> to reset your password.</p>
-        <p>If you didn't request this, please ignore this email.</p>
-      `,
+            html: emailTemplate,
+        });
+    }
+    async sendLoginEmail(email, token) {
+        const loginUrl = `${process.env.FRONTEND_URL}/auth/login?token=${token}`;
+        const emailTemplate = (0, login_email_template_js_1.getLoginEmailTemplate)(loginUrl);
+        await this.transporter.sendMail({
+            from: `"No Reply" <${process.env.MAIL_USER}>`,
+            to: email,
+            subject: 'Your Secure Login Link',
+            html: emailTemplate,
         });
     }
 };

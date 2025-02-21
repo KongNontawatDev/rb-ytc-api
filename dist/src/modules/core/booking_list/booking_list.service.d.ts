@@ -60,6 +60,7 @@ export declare class BookingListService {
         })[];
         pageCount: number;
         total: number;
+        statusCounts: Record<string, number>;
     }>;
     findAll(): Promise<{
         id: number;

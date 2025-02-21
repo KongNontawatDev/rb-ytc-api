@@ -1,4 +1,11 @@
-import { Controller, Post, Body, UseGuards, Request } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  UseGuards,
+  Request,
+  Query,
+} from '@nestjs/common';
 import { AuthService } from './auth.service';
 import {
   SignUpDto,
@@ -41,7 +48,7 @@ export class AuthController {
   async forgotPassword(@Body() dto: ForgotPasswordDto) {
     const data = await this.authService.forgotPassword(dto);
     return {
-      message: 'ลืมรหัสผ่าน',
+      message: 'ลืมรหัสผ่าน - ขอเปลี่ยนรหัสผ่าน',
       error: 0,
       data,
     };
@@ -59,7 +66,10 @@ export class AuthController {
 
   @UseGuards(JwtAuthGuard)
   @Post('change-password/owner')
-  async changePasswordFormOwner(@Request() req, @Body() dto: ChangePasswordFromOwnerDto) {
+  async changePasswordFormOwner(
+    @Request() req,
+    @Body() dto: ChangePasswordFromOwnerDto,
+  ) {
     await this.authService.changePassword(req.user.userId, dto);
     return {
       message: 'เปลี่ยนรหัสผ่านสำเร็จ',
@@ -68,11 +78,11 @@ export class AuthController {
     };
   }
 
-    @UseGuards(JwtAuthGuard)
+  @UseGuards(JwtAuthGuard)
   @Post('change-password/other')
   async changePasswordFromOther(@Body() body: ChangePasswordFromOtherDto) {
-    const {id,...bodyData} = body
-    await this.authService.changePassword(id,bodyData);
+    const { id, ...bodyData } = body;
+    await this.authService.changePassword(id, bodyData);
     return {
       message: 'เปลี่ยนรหัสผ่านสำเร็จ',
       error: 0,
@@ -81,24 +91,42 @@ export class AuthController {
   }
 
   @Post('refresh-token')
-  async refreshToken(
-    @Body('refreshToken') refreshToken: string,
-  ) {
+  async refreshToken(@Body('refreshToken') refreshToken: string) {
     const data = await this.authService.refreshToken(refreshToken);
     return {
-      message:'รีเฟรช Token',
-      error:0,
-      data
-    }
+      message: 'รีเฟรช Token',
+      error: 0,
+      data,
+    };
   }
 
   @Post('logout')
   async logout(@Body('adminId') adminId: number) {
     const data = await this.authService.logout(adminId);
     return {
-      message:'ออกจากระบบสำเร็จ',
-      error:0,
-      data
-    }
+      message: 'ออกจากระบบสำเร็จ',
+      error: 0,
+      data,
+    };
+  }
+
+  @Post('login-with-email')
+  async loginWithEmail(@Body('email') email: string) {
+    const data= await this.authService.sendLoginLink(email);
+    return {
+      message: 'ส่งเมลเข้าสู่ระบบแล้ว',
+      error: 0,
+      data,
+    };
+  }
+
+  @Post('validate-login-with-email')
+  async validateLoginWithEmail(@Query('token') token: string) {
+    const data = await this.authService.validateToken(token);
+        return {
+      message: 'ตรวจสอบ Token แล้ว',
+      error: 0,
+      data,
+    };
   }
 }

@@ -45,4 +45,23 @@ export declare class AuthController {
         error: number;
         data: void;
     }>;
+    loginWithEmail(email: string): Promise<{
+        message: string;
+        error: number;
+        data: string;
+    }>;
+    validateLoginWithEmail(token: string): Promise<{
+        message: string;
+        error: number;
+        data: {
+            accessToken: string;
+            refreshToken: string;
+            id: number;
+            name: string;
+            status: number;
+            email: string;
+            image: string | null;
+            role_id: number;
+        } | undefined;
+    }>;
 }

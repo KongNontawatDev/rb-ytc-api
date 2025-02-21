@@ -4,4 +4,5 @@ export declare class MailerService {
     private transporter;
     constructor(configService: ConfigService);
     sendPasswordResetEmail(email: string, token: string): Promise<void>;
+    sendLoginEmail(email: string, token: string): Promise<void>;
 }

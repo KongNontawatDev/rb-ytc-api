@@ -41,7 +41,7 @@ exports.AppModule = AppModule = __decorate([
             }),
             throttler_1.ThrottlerModule.forRoot([
                 {
-                    ttl: 60000,
+                    ttl: 60,
                     limit: 100,
                 },
             ]),
@@ -51,6 +51,10 @@ exports.AppModule = AppModule = __decorate([
             {
                 provide: core_1.APP_INTERCEPTOR,
                 useClass: http_intercetor_1.HttpInterceptor,
+            },
+            {
+                provide: core_1.APP_GUARD,
+                useClass: throttler_1.ThrottlerGuard,
             },
         ],
     })

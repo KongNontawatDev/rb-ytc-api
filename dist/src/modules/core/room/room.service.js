@@ -19,12 +19,13 @@ const prisma_error_handler_1 = require("../../../common/exceptions/prisma-error.
 const file_service_1 = require("../../../common/utils/file/file.service");
 const path_1 = __importDefault(require("path"));
 const compression_service_1 = require("../../../common/utils/compression/compression.service");
-const dayjs_1 = __importDefault(require("dayjs"));
+const date_service_1 = require("../../../common/utils/date/date.service");
 let RoomService = class RoomService {
-    constructor(db, fileService, compressionService) {
+    constructor(db, fileService, compressionService, dateService) {
         this.db = db;
         this.fileService = fileService;
         this.compressionService = compressionService;
+        this.dateService = dateService;
     }
     async create(data, files) {
         try {
@@ -249,8 +250,8 @@ let RoomService = class RoomService {
     }
     async findRoomEmpty() {
         try {
-            const todayStart = (0, dayjs_1.default)().startOf('day').toDate();
-            const todayEnd = (0, dayjs_1.default)().endOf('day').toDate();
+            const todayStart = this.dateService.startOf('day');
+            const todayEnd = this.dateService.endOf("day");
             const room = await this.db.room.findMany({
                 where: {
                     booking_list: {
@@ -280,8 +281,8 @@ let RoomService = class RoomService {
         }
     }
     async findOne(id) {
-        const oneMonthAgo = (0, dayjs_1.default)().subtract(1, 'month').toDate();
-        const oneMonthAhead = (0, dayjs_1.default)().add(1, 'month').toDate();
+        const oneMonthAgo = this.dateService.subtractTime(new Date(), 1, "month");
+        const oneMonthAhead = this.dateService.addTime(new Date(), 1, "month");
         try {
             const room = await this.db.room.findFirst({
                 where: { id },
@@ -411,6 +412,7 @@ exports.RoomService = RoomService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService,
         file_service_1.FileService,
-        compression_service_1.CompressionService])
+        compression_service_1.CompressionService,
+        date_service_1.DateService])
 ], RoomService);
 //# sourceMappingURL=room.service.js.map

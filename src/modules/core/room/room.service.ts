@@ -8,13 +8,14 @@ import { FindRoomsByConditionQueryDto } from './dto/params-room.dto';
 import { FileService } from '@common/utils/file/file.service';
 import path from 'path';
 import { CompressionService } from '@common/utils/compression/compression.service';
-import dayjs from 'dayjs';
+import { DateService } from '@common/utils/date/date.service';
 @Injectable()
 export class RoomService {
   constructor(
     private db: PrismaService,
     private fileService: FileService,
     private readonly compressionService: CompressionService,
+    private readonly dateService: DateService,
   ) {}
 
   async create(data: CreateRoomDto, files: Express.Multer.File[]) {
@@ -306,8 +307,9 @@ export class RoomService {
 
   async findRoomEmpty() {
     try {
-      const todayStart = dayjs().startOf('day').toDate();
-      const todayEnd = dayjs().endOf('day').toDate();
+      const todayStart = this.dateService.startOf('day')
+      const todayEnd = this.dateService.endOf("day")
+
       const room = await this.db.room.findMany({
         where: {
           booking_list: {
@@ -338,8 +340,8 @@ export class RoomService {
   }
 
   async findOne(id: number) {
-    const oneMonthAgo = dayjs().subtract(1, 'month').toDate();
-    const oneMonthAhead = dayjs().add(1, 'month').toDate();
+    const oneMonthAgo = this.dateService.subtractTime(new Date(), 1, "month");
+    const oneMonthAhead = this.dateService.addTime(new Date(), 1, "month");
     try {
       const room = await this.db.room.findFirst({
         where: { id },

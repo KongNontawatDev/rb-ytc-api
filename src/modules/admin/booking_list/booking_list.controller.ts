@@ -53,7 +53,7 @@ export class BookingListController {
       query.sortOrder;
 
     let result:
-      | { data: any[] | undefined; pageCount?: number; total?: number }
+      | { data: any[] | undefined; pageCount?: number; total?: number,statusCounts?:any }
       | undefined;
 
     if (hasQueryParams) {
@@ -72,6 +72,7 @@ export class BookingListController {
             pageSize: Number(query.pageSize) || 10,
             pageCount: result.pageCount,
             total: result.total,
+            statusCounts: result.statusCounts,
           },
         }),
         error: 0,

@@ -1,7 +1,15 @@
+import { DateService } from '@common/utils/date/date.service';
 import { booking_list, room, user } from '@prisma/client';
-import dayjs from 'dayjs';
 
-export const bookingTemplate = (context: string, booking: booking_list&{room:Pick<room,"name">,user:Pick<user,"line_id">},color:string) => [
+export const bookingTemplate = (
+  context: string, 
+  booking: booking_list & {
+    room: Pick<room, "name">,
+    user: Pick<user, "line_id">
+  },
+  color: string,
+  dateService: DateService // เพิ่ม parameter สำหรับ DateService
+) => [
   {
     type: 'flex',
     altText: `แจ้งเตือนการ ${context}`,
@@ -76,7 +84,7 @@ export const bookingTemplate = (context: string, booking: booking_list&{room:Pic
               },
               {
                 type: 'text',
-                text: `${dayjs(booking.book_start).tz('Asia/Bangkok').format('DD-MM-YYYY HH:mm')} - ${dayjs(booking.book_end).tz('Asia/Bangkok').format('DD-MM-YYYY HH:mm')}`,
+                text: `${dateService.formatDate(dateService.toTimezone(booking.book_start), 'DD-MM-YYYY HH:mm')} - ${dateService.formatDate(dateService.toTimezone(booking.book_end), 'DD-MM-YYYY HH:mm')}`,
                 wrap: true,
                 color: '#666666',
                 size: 'sm',

@@ -1,3 +1,4 @@
+import { DateService } from '@common/utils/date/date.service';
 import { BookingListService } from '@modules/core/booking_list/booking_list.service';
 import { CreateBookingListDto } from '@modules/core/booking_list/dto/create-booking_list.dto';
 import {
@@ -30,6 +31,7 @@ export class BookingListController {
   constructor(
     private readonly bookingListService: BookingListService,
     private readonly lineMessageingService: LineMessagingService,
+    private dateService:DateService
   ) {}
 
   @Get()
@@ -95,7 +97,7 @@ export class BookingListController {
     if (data) {
       await this.lineMessageingService.pushMessage(
         data.user.line_id,
-        bookingTemplate('จองห้องประชุมแล้ว', data, '#34A853'),
+        bookingTemplate('จองห้องประชุมแล้ว', data, '#34A853',this.dateService),
       );
     }
     return {
@@ -125,7 +127,7 @@ export class BookingListController {
     if (data) {
       await this.lineMessageingService.pushMessage(
         data.user.line_id,
-        bookingTemplate('ยกเลิกจองห้องประชุมแล้ว', data, '#EA4335'),
+        bookingTemplate('ยกเลิกจองห้องประชุมแล้ว', data, '#EA4335',this.dateService),
       );
     }
     return {

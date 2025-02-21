@@ -14,12 +14,14 @@ import {
 import { PrismaService } from 'src/provider/prisma/prisma.service';
 import { JwtAuthService } from '@provider/jwt/jwt-auth.service';
 import { Tokens } from '@provider/jwt/types/tokens.type';
+import { MailerService } from '@provider/mailer/mailer.service';
 
 @Injectable()
 export class AuthService {
   constructor(
     private prisma: PrismaService,
     private jwtAuthService: JwtAuthService,
+    private mailService: MailerService,
   ) {}
 
   async signUp(dto: SignUpDto): Promise<Tokens> {
@@ -54,8 +56,8 @@ export class AuthService {
     });
 
     const tokens = await this.jwtAuthService.getTokensAdmin(
-      admin.id,
       admin.email!,
+      admin.id,
     );
     return {
       ...tokens,
@@ -63,40 +65,44 @@ export class AuthService {
     };
   }
 
-  async signIn(body:SignInDto): Promise<Tokens> {
-    const {email,password} = body
+  async signIn(body: SignInDto): Promise<Tokens> {
+    const { email, password } = body;
     const admin = await this.prisma.admin.findUnique({ where: { email } });
 
     if (!admin) {
-      throw new UnauthorizedException('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง! โปรดลองอีกครั้ง');
+      throw new BadRequestException(
+        'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง! โปรดลองอีกครั้ง',
+      );
     }
 
     const passwordMatches = await bcrypt.compare(password, admin.password);
     if (!passwordMatches) {
-      throw new UnauthorizedException('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง! โปรดลองอีกครั้ง');
+      throw new BadRequestException(
+        'ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง! โปรดลองอีกครั้ง',
+      );
     }
 
     // Generate Tokens
-    const tokens = await this.jwtAuthService.getTokensAdmin(admin.id, email);
+    const tokens = await this.jwtAuthService.getTokensAdmin(email, admin.id);
 
     // Save Refresh Token to Database (hashed for security)
     const hashedRefreshToken = await this.hashData(tokens.refreshToken);
     const data = await this.prisma.admin.update({
       where: { id: admin.id },
       data: { refresh_token: hashedRefreshToken },
-      select:{
-        id:true,
-        email:true,
-        image:true,
-        name:true,
-        role_id:true,
-        status:true,
-      }
+      select: {
+        id: true,
+        email: true,
+        image: true,
+        name: true,
+        role_id: true,
+        status: true,
+      },
     });
 
     return {
       ...data,
-      ...tokens
+      ...tokens,
     };
   }
 
@@ -125,8 +131,8 @@ export class AuthService {
 
     // Generate new tokens
     const tokens = await this.jwtAuthService.getTokensAdmin(
-      admin.id,
       admin.email,
+      admin.id,
     );
 
     // Update the refresh token in the database
@@ -147,8 +153,7 @@ export class AuthService {
     });
 
     if (!admin) {
-      // Don't reveal whether the email exists
-      return null;
+      throw new BadRequestException('This email is not registered.');
     }
 
     // สร้าง reset token และทำการ hash
@@ -166,12 +171,11 @@ export class AuthService {
       },
     });
 
-    console.log('hashed_token', hashed_token);
 
-    // await this.mailerService.sendPasswordResetEmail(
-    //   admin.email,
-    //   hashed_token, // ส่ง hashed token นี้ให้ผู้ใช้
-    // );
+    await this.mailService.sendPasswordResetEmail(
+      admin.email,
+      hashed_token, // ส่ง hashed token นี้ให้ผู้ใช้
+    );
 
     return { hashed_token };
   }
@@ -202,7 +206,10 @@ export class AuthService {
     });
   }
 
-  async changePassword(adminId: number, dto: ChangePasswordFromOwnerDto): Promise<void> {
+  async changePassword(
+    adminId: number,
+    dto: ChangePasswordFromOwnerDto,
+  ): Promise<void> {
     const admin = await this.prisma.admin.findUnique({
       where: { id: adminId },
     });
@@ -212,7 +219,7 @@ export class AuthService {
       admin?.password!,
     );
     if (!passwordMatches) {
-      throw new UnauthorizedException('Current password is incorrect');
+      throw new BadRequestException('Current password is incorrect');
     }
 
     const hashedPassword = await this.hashData(dto.newPassword);
@@ -233,5 +240,52 @@ export class AuthService {
   async hashData(data: string): Promise<string> {
     const salt = await bcrypt.genSalt();
     return bcrypt.hash(data, salt);
+  }
+
+  async sendLoginLink(email: string) {
+    // Check if the email is registered
+    const existingUser = await this.prisma.admin.findFirst({
+      where: { email },
+      select: { id: true, email: true },
+    });
+
+    if (!existingUser) {
+      throw new BadRequestException('This email is not registered.');
+    }
+    const token = this.jwtAuthService.getTokensAdmin(email);
+
+    // Generate token for registered user
+    await this.jwtAuthService.getTokensAdmin(email, existingUser.id);
+    await this.mailService.sendLoginEmail(email, (await token).accessToken);
+
+    return 'Login link sent to your email.';
+  }
+
+  async validateToken(token: string) {
+    try {
+      const tokenRes = await this.jwtAuthService.validateToken(token);
+      if (tokenRes) {
+        const newToken = await this.jwtAuthService.getTokensAdmin(tokenRes.context);
+        const hashedRefreshToken = await this.hashData(newToken.refreshToken);
+        const data = await this.prisma.admin.update({
+          where: { email:tokenRes.context },
+          data: { refresh_token: hashedRefreshToken },
+          select: {
+            id: true,
+            email: true,
+            image: true,
+            name: true,
+            role_id: true,
+            status: true,
+          },
+        });
+        return {
+          ...data,
+          ...newToken
+        };
+      }
+    } catch (e) {
+      throw new UnauthorizedException('Invalid or expired token.');
+    }
   }
 }

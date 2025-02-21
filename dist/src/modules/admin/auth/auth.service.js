@@ -47,10 +47,12 @@ const common_1 = require("@nestjs/common");
 const bcrypt = __importStar(require("bcrypt"));
 const prisma_service_1 = require("../../../provider/prisma/prisma.service");
 const jwt_auth_service_1 = require("../../../provider/jwt/jwt-auth.service");
+const mailer_service_1 = require("../../../provider/mailer/mailer.service");
 let AuthService = class AuthService {
-    constructor(prisma, jwtAuthService) {
+    constructor(prisma, jwtAuthService, mailService) {
         this.prisma = prisma;
         this.jwtAuthService = jwtAuthService;
+        this.mailService = mailService;
     }
     async signUp(dto) {
         const adminExists = await this.prisma.admin.findUnique({
@@ -80,7 +82,7 @@ let AuthService = class AuthService {
                 updated_at: true,
             },
         });
-        const tokens = await this.jwtAuthService.getTokensAdmin(admin.id, admin.email);
+        const tokens = await this.jwtAuthService.getTokensAdmin(admin.email, admin.id);
         return {
             ...tokens,
             ...admin,
@@ -90,13 +92,13 @@ let AuthService = class AuthService {
         const { email, password } = body;
         const admin = await this.prisma.admin.findUnique({ where: { email } });
         if (!admin) {
-            throw new common_1.UnauthorizedException('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง! โปรดลองอีกครั้ง');
+            throw new common_1.BadRequestException('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง! โปรดลองอีกครั้ง');
         }
         const passwordMatches = await bcrypt.compare(password, admin.password);
         if (!passwordMatches) {
-            throw new common_1.UnauthorizedException('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง! โปรดลองอีกครั้ง');
+            throw new common_1.BadRequestException('ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง! โปรดลองอีกครั้ง');
         }
-        const tokens = await this.jwtAuthService.getTokensAdmin(admin.id, email);
+        const tokens = await this.jwtAuthService.getTokensAdmin(email, admin.id);
         const hashedRefreshToken = await this.hashData(tokens.refreshToken);
         const data = await this.prisma.admin.update({
             where: { id: admin.id },
@@ -108,11 +110,11 @@ let AuthService = class AuthService {
                 name: true,
                 role_id: true,
                 status: true,
-            }
+            },
         });
         return {
             ...data,
-            ...tokens
+            ...tokens,
         };
     }
     async refreshToken(oldRefreshToken) {
@@ -130,7 +132,7 @@ let AuthService = class AuthService {
         if (!refreshTokenMatches) {
             throw new common_1.UnauthorizedException('Invalid refresh token');
         }
-        const tokens = await this.jwtAuthService.getTokensAdmin(admin.id, admin.email);
+        const tokens = await this.jwtAuthService.getTokensAdmin(admin.email, admin.id);
         const hashedNewRefreshToken = await this.hashData(tokens.refreshToken);
         await this.prisma.admin.update({
             where: { id: admin.id },
@@ -143,7 +145,7 @@ let AuthService = class AuthService {
             where: { email: dto.email },
         });
         if (!admin) {
-            return null;
+            throw new common_1.BadRequestException('This email is not registered.');
         }
         const reset_token = admin.email + Date.now();
         const saltRounds = 10;
@@ -156,7 +158,7 @@ let AuthService = class AuthService {
                 reset_token_expiry,
             },
         });
-        console.log('hashed_token', hashed_token);
+        await this.mailService.sendPasswordResetEmail(admin.email, hashed_token);
         return { hashed_token };
     }
     async resetPassword(dto) {
@@ -187,7 +189,7 @@ let AuthService = class AuthService {
         });
         const passwordMatches = await bcrypt.compare(dto.currentPassword, admin?.password);
         if (!passwordMatches) {
-            throw new common_1.UnauthorizedException('Current password is incorrect');
+            throw new common_1.BadRequestException('Current password is incorrect');
         }
         const hashedPassword = await this.hashData(dto.newPassword);
         await this.prisma.admin.update({
@@ -205,11 +207,53 @@ let AuthService = class AuthService {
         const salt = await bcrypt.genSalt();
         return bcrypt.hash(data, salt);
     }
+    async sendLoginLink(email) {
+        const existingUser = await this.prisma.admin.findFirst({
+            where: { email },
+            select: { id: true, email: true },
+        });
+        if (!existingUser) {
+            throw new common_1.BadRequestException('This email is not registered.');
+        }
+        const token = this.jwtAuthService.getTokensAdmin(email);
+        await this.jwtAuthService.getTokensAdmin(email, existingUser.id);
+        await this.mailService.sendLoginEmail(email, (await token).accessToken);
+        return 'Login link sent to your email.';
+    }
+    async validateToken(token) {
+        try {
+            const tokenRes = await this.jwtAuthService.validateToken(token);
+            if (tokenRes) {
+                const newToken = await this.jwtAuthService.getTokensAdmin(tokenRes.context);
+                const hashedRefreshToken = await this.hashData(newToken.refreshToken);
+                const data = await this.prisma.admin.update({
+                    where: { email: tokenRes.context },
+                    data: { refresh_token: hashedRefreshToken },
+                    select: {
+                        id: true,
+                        email: true,
+                        image: true,
+                        name: true,
+                        role_id: true,
+                        status: true,
+                    },
+                });
+                return {
+                    ...data,
+                    ...newToken
+                };
+            }
+        }
+        catch (e) {
+            throw new common_1.UnauthorizedException('Invalid or expired token.');
+        }
+    }
 };
 exports.AuthService = AuthService;
 exports.AuthService = AuthService = __decorate([
     (0, common_1.Injectable)(),
     __metadata("design:paramtypes", [prisma_service_1.PrismaService,
-        jwt_auth_service_1.JwtAuthService])
+        jwt_auth_service_1.JwtAuthService,
+        mailer_service_1.MailerService])
 ], AuthService);
 //# sourceMappingURL=auth.service.js.map

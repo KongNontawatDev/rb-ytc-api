@@ -54,6 +54,7 @@ let BookingListController = class BookingListController {
                         pageSize: Number(query.pageSize) || 10,
                         pageCount: result.pageCount,
                         total: result.total,
+                        statusCounts: result.statusCounts,
                     },
                 }),
                 error: 0,

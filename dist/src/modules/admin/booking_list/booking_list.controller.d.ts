@@ -40,6 +40,7 @@ export declare class BookingListController {
             pageSize: number;
             pageCount: number | undefined;
             total: number | undefined;
+            statusCounts: any;
         } | undefined;
         message: string;
     } | undefined>;

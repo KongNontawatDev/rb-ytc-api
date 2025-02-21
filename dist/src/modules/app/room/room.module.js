@@ -12,12 +12,13 @@ const room_controller_1 = require("./room.controller");
 const file_module_1 = require("../../../common/utils/file/file.module");
 const compression_module_1 = require("../../../common/utils/compression/compression.module");
 const room_service_1 = require("../../core/room/room.service");
+const date_module_1 = require("../../../common/utils/date/date.module");
 let RoomModule = class RoomModule {
 };
 exports.RoomModule = RoomModule;
 exports.RoomModule = RoomModule = __decorate([
     (0, common_1.Module)({
-        imports: [file_module_1.FileModule, compression_module_1.CompressionModule],
+        imports: [file_module_1.FileModule, compression_module_1.CompressionModule, date_module_1.DateModule],
         controllers: [room_controller_1.RoomController],
         providers: [room_service_1.RoomService],
     })

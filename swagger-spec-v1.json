@@ -448,6 +448,43 @@
         ]
       }
     },
+    "/api/admin/auth/login-with-email": {
+      "post": {
+        "operationId": "AuthController_loginWithEmail",
+        "parameters": [],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
+    "/api/admin/auth/validate-login-with-email": {
+      "post": {
+        "operationId": "AuthController_validateLoginWithEmail",
+        "parameters": [
+          {
+            "name": "token",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": ""
+          }
+        },
+        "tags": [
+          "Auth"
+        ]
+      }
+    },
     "/api/admin/access-control/grant": {
       "post": {
         "operationId": "AccessControlController_grantPermission",

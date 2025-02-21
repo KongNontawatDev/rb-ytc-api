@@ -40,7 +40,7 @@ let AuthController = class AuthController {
     async forgotPassword(dto) {
         const data = await this.authService.forgotPassword(dto);
         return {
-            message: 'ลืมรหัสผ่าน',
+            message: 'ลืมรหัสผ่าน - ขอเปลี่ยนรหัสผ่าน',
             error: 0,
             data,
         };
@@ -75,7 +75,7 @@ let AuthController = class AuthController {
         return {
             message: 'รีเฟรช Token',
             error: 0,
-            data
+            data,
         };
     }
     async logout(adminId) {
@@ -83,7 +83,23 @@ let AuthController = class AuthController {
         return {
             message: 'ออกจากระบบสำเร็จ',
             error: 0,
-            data
+            data,
+        };
+    }
+    async loginWithEmail(email) {
+        const data = await this.authService.sendLoginLink(email);
+        return {
+            message: 'ส่งเมลเข้าสู่ระบบแล้ว',
+            error: 0,
+            data,
+        };
+    }
+    async validateLoginWithEmail(token) {
+        const data = await this.authService.validateToken(token);
+        return {
+            message: 'ตรวจสอบ Token แล้ว',
+            error: 0,
+            data,
         };
     }
 };
@@ -147,6 +163,20 @@ __decorate([
     __metadata("design:paramtypes", [Number]),
     __metadata("design:returntype", Promise)
 ], AuthController.prototype, "logout", null);
+__decorate([
+    (0, common_1.Post)('login-with-email'),
+    __param(0, (0, common_1.Body)('email')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "loginWithEmail", null);
+__decorate([
+    (0, common_1.Post)('validate-login-with-email'),
+    __param(0, (0, common_1.Query)('token')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], AuthController.prototype, "validateLoginWithEmail", null);
 exports.AuthController = AuthController = __decorate([
     (0, common_1.Controller)({
         path: 'admin/auth',

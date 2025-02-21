@@ -1,8 +1,9 @@
+import { DateService } from '@common/utils/date/date.service';
 import { booking_list, room, user } from '@prisma/client';
 export declare const bookingTemplate: (context: string, booking: booking_list & {
     room: Pick<room, "name">;
     user: Pick<user, "line_id">;
-}, color: string) => {
+}, color: string, dateService: DateService) => {
     type: string;
     altText: string;
     contents: {

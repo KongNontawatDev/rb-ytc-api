@@ -13,6 +13,7 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.BookingListController = void 0;
+const date_service_1 = require("../../../common/utils/date/date.service");
 const booking_list_service_1 = require("../../core/booking_list/booking_list.service");
 const create_booking_list_dto_1 = require("../../core/booking_list/dto/create-booking_list.dto");
 const params_booking_list_dto_1 = require("../../core/booking_list/dto/params-booking_list.dto");
@@ -21,9 +22,10 @@ const common_1 = require("@nestjs/common");
 const line_messaging_service_1 = require("../../../provider/line-messaging-api/line-messaging.service");
 const booking_template_1 = require("../../../provider/line-messaging-api/templates/booking-template");
 let BookingListController = class BookingListController {
-    constructor(bookingListService, lineMessageingService) {
+    constructor(bookingListService, lineMessageingService, dateService) {
         this.bookingListService = bookingListService;
         this.lineMessageingService = lineMessageingService;
+        this.dateService = dateService;
     }
     async findAll() {
         const booking_list = await this.bookingListService.findAll();
@@ -68,7 +70,7 @@ let BookingListController = class BookingListController {
     async create(body) {
         const data = await this.bookingListService.create(body);
         if (data) {
-            await this.lineMessageingService.pushMessage(data.user.line_id, (0, booking_template_1.bookingTemplate)('จองห้องประชุมแล้ว', data, '#34A853'));
+            await this.lineMessageingService.pushMessage(data.user.line_id, (0, booking_template_1.bookingTemplate)('จองห้องประชุมแล้ว', data, '#34A853', this.dateService));
         }
         return {
             message: 'เพิ่มข้อมูลรายการจอง',
@@ -87,7 +89,7 @@ let BookingListController = class BookingListController {
     async updateStatusOne(id, body) {
         const data = await this.bookingListService.updateStatusOne(+id, body);
         if (data) {
-            await this.lineMessageingService.pushMessage(data.user.line_id, (0, booking_template_1.bookingTemplate)('ยกเลิกจองห้องประชุมแล้ว', data, '#EA4335'));
+            await this.lineMessageingService.pushMessage(data.user.line_id, (0, booking_template_1.bookingTemplate)('ยกเลิกจองห้องประชุมแล้ว', data, '#EA4335', this.dateService));
         }
         return {
             message: 'แก้ไขสถานะรายการจองตามรหัส',
@@ -162,6 +164,7 @@ exports.BookingListController = BookingListController = __decorate([
         version: '1',
     }),
     __metadata("design:paramtypes", [booking_list_service_1.BookingListService,
-        line_messaging_service_1.LineMessagingService])
+        line_messaging_service_1.LineMessagingService,
+        date_service_1.DateService])
 ], BookingListController);
 //# sourceMappingURL=booking_list.controller.js.map

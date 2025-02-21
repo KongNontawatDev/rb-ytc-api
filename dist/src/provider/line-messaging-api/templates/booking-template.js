@@ -1,11 +1,7 @@
 "use strict";
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.bookingTemplate = void 0;
-const dayjs_1 = __importDefault(require("dayjs"));
-const bookingTemplate = (context, booking, color) => [
+const bookingTemplate = (context, booking, color, dateService) => [
     {
         type: 'flex',
         altText: `แจ้งเตือนการ ${context}`,
@@ -80,7 +76,7 @@ const bookingTemplate = (context, booking, color) => [
                             },
                             {
                                 type: 'text',
-                                text: `${(0, dayjs_1.default)(booking.book_start).tz('Asia/Bangkok').format('DD-MM-YYYY HH:mm')} - ${(0, dayjs_1.default)(booking.book_end).tz('Asia/Bangkok').format('DD-MM-YYYY HH:mm')}`,
+                                text: `${dateService.formatDate(dateService.toTimezone(booking.book_start), 'DD-MM-YYYY HH:mm')} - ${dateService.formatDate(dateService.toTimezone(booking.book_end), 'DD-MM-YYYY HH:mm')}`,
                                 wrap: true,
                                 color: '#666666',
                                 size: 'sm',

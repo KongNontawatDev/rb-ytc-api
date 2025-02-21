@@ -46,10 +46,11 @@ const helmet_1 = __importDefault(require("helmet"));
 async function bootstrap() {
     const app = await core_1.NestFactory.create(app_module_1.AppModule);
     app.enableCors({
-        origin: true,
+        origin: '*',
         methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
         allowedHeaders: ['Content-Type', 'Authorization', 'Accept', 'x-version', 'x-locals'],
         credentials: true,
+        exposedHeaders: ['Content-Disposition'],
     });
     app.setGlobalPrefix('api');
     app.enableVersioning({
@@ -60,8 +61,11 @@ async function bootstrap() {
     app.useGlobalPipes(new common_1.ValidationPipe({ whitelist: true, forbidNonWhitelisted: true }));
     app.useGlobalInterceptors(new jwt_subject_intercetor_1.JwtSubjectInterceptor());
     (0, swagger_1.setupSwagger)(app);
-    app.use((0, helmet_1.default)());
-    app.use('/', express.static('public'));
+    app.use((0, helmet_1.default)({
+        contentSecurityPolicy: false,
+    }));
+    app.use(helmet_1.default.crossOriginResourcePolicy({ policy: "cross-origin" }));
+    app.use('/public', express.static('public'));
     await app.listen(process.env.PORT ?? 3000);
 }
 bootstrap();

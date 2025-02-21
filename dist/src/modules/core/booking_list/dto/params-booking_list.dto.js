@@ -23,12 +23,10 @@ __decorate([
 ], FindBookingListsByConditionQueryDto.prototype, "status", void 0);
 __decorate([
     (0, validation_decorator_1.IsOptionalField)(),
-    (0, validation_decorator_1.IsDateField)(),
     __metadata("design:type", Date)
 ], FindBookingListsByConditionQueryDto.prototype, "book_start", void 0);
 __decorate([
     (0, validation_decorator_1.IsOptionalField)(),
-    (0, validation_decorator_1.IsDateField)(),
     __metadata("design:type", Date)
 ], FindBookingListsByConditionQueryDto.prototype, "book_end", void 0);
 __decorate([

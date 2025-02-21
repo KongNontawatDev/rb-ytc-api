@@ -16,9 +16,14 @@ let JwtAuthService = class JwtAuthService {
     constructor(jwtService) {
         this.jwtService = jwtService;
     }
-    async getTokensAdmin(adminId, email) {
-        const accessToken = this.jwtService.sign({ sub: adminId, context: email, actor: 'admin' }, { expiresIn: '1d' });
-        const refreshToken = this.jwtService.sign({ sub: adminId }, { expiresIn: '7d' });
+    async getTokensAdmin(email, adminId) {
+        const payload = { context: email, actor: 'admin' };
+        if (adminId) {
+            payload.sub = adminId;
+        }
+        const accessToken = this.jwtService.sign(payload, { expiresIn: '1d' });
+        const refreshPayload = adminId ? { sub: adminId } : {};
+        const refreshToken = this.jwtService.sign(refreshPayload, { expiresIn: '7d' });
         return { accessToken, refreshToken };
     }
     decodeToken(token) {
@@ -35,6 +40,15 @@ let JwtAuthService = class JwtAuthService {
             secret: process.env.JWT_SECRET,
             expiresIn: '1h',
         });
+    }
+    async validateToken(token) {
+        try {
+            const decoded = this.jwtService.verify(token, { secret: process.env.JWT_SECRET });
+            return decoded;
+        }
+        catch (e) {
+            throw new common_1.UnauthorizedException('Invalid or expired token.');
+        }
     }
 };
 exports.JwtAuthService = JwtAuthService;

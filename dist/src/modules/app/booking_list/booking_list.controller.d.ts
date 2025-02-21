@@ -1,3 +1,4 @@
+import { DateService } from '@common/utils/date/date.service';
 import { BookingListService } from '@modules/core/booking_list/booking_list.service';
 import { CreateBookingListDto } from '@modules/core/booking_list/dto/create-booking_list.dto';
 import { findManyBookingListByUserDto, FindOneBookingListParamDto, FindRoomBookingDateParamDto } from '@modules/core/booking_list/dto/params-booking_list.dto';
@@ -6,7 +7,8 @@ import { LineMessagingService } from '@provider/line-messaging-api/line-messagin
 export declare class BookingListController {
     private readonly bookingListService;
     private readonly lineMessageingService;
-    constructor(bookingListService: BookingListService, lineMessageingService: LineMessagingService);
+    private dateService;
+    constructor(bookingListService: BookingListService, lineMessageingService: LineMessagingService, dateService: DateService);
     findAll(): Promise<{
         message: string;
         error: number;

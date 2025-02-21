@@ -5,11 +5,13 @@ import { Prisma } from '@prisma/client';
 import { FindRoomsByConditionQueryDto } from './dto/params-room.dto';
 import { FileService } from '@common/utils/file/file.service';
 import { CompressionService } from '@common/utils/compression/compression.service';
+import { DateService } from '@common/utils/date/date.service';
 export declare class RoomService {
     private db;
     private fileService;
     private readonly compressionService;
-    constructor(db: PrismaService, fileService: FileService, compressionService: CompressionService);
+    private readonly dateService;
+    constructor(db: PrismaService, fileService: FileService, compressionService: CompressionService, dateService: DateService);
     create(data: CreateRoomDto, files: Express.Multer.File[]): Promise<({
         room_accessory: ({
             accessory: {
