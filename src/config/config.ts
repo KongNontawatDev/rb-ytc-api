@@ -10,10 +10,10 @@ export default (): AppConfig => ({
     expiresIn: '1d',
   },
   mail: {
-    host: process.env.MAIL_HOST!,
-    port: parseInt(process.env.MAIL_PORT!, 10),
-    user: process.env.MAIL_USER!,
-    password: process.env.MAIL_PASSWORD!,
+    host: process.env.MAIL_HOST||"thsv53.hostatom.com",
+    port: Number(process.env.MAIL_PORT||465),
+    user: process.env.MAIL_USER||"test@ta-pps.com",
+    password: process.env.MAIL_PASSWORD||"Nontawat...15885",
   },
   stripe_secret_key:process.env.STRIPE_SECRET_KEY!,
   logtail_key:process.env.LOGTAIL_KEY!
